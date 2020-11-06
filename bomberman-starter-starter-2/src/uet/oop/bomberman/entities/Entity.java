@@ -33,24 +33,6 @@ public abstract class Entity {
     }
     public abstract void update();
 
-    public abstract void update(Scene scene, KeyEvent event, List<Entity> entities);
+    public abstract void destroy();
 
-    public abstract boolean isAlive();
-
-    /*public void update(KeyEvent event) {
-        switch (event.getCode()) {
-            case UP:
-                if(y > 1) this.y -= 1;
-                break;
-            case DOWN:
-                if(y < new BombermanGame().HEIGHT - 1) this.y += 1;
-                break;
-            case LEFT:
-                if(x > 1) this.x -= 1;
-                break;
-            case RIGHT:
-                if(x < new BombermanGame().WIDTH - 1) this.x += 1;
-                break;
-        }
-    }*/
 }

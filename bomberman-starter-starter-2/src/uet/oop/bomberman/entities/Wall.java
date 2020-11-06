@@ -18,10 +18,7 @@ public class Wall extends Entity {
     }
 
     @Override
-    public void update(Scene scene, KeyEvent keyEvent, List<Entity> entities) { }
+    public void destroy() {
 
-    @Override
-    public boolean isAlive() {
-        return true;
     }
 }

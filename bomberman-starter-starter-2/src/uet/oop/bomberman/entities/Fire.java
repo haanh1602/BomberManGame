@@ -1,18 +1,15 @@
 package uet.oop.bomberman.entities;
 
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class Fire extends Entity implements Initializable {
-    private int explodeTime = 24;
+public class Fire extends Entity{
+    private int explodeTime = 23; // because explodeBomb() in Bomb runs sooner than 'this' 1 frame
     private String type;
     private boolean isLast;
     private String lastType;
@@ -22,6 +19,7 @@ public class Fire extends Entity implements Initializable {
         super(x, y, img);
         this.type = type;
         this.isLast = isLast;
+        this.imgName = "explosion_" + type;
     }
 
     public Fire(double x, double y, Image img, String type, boolean isLast, String lastType) {
@@ -29,6 +27,10 @@ public class Fire extends Entity implements Initializable {
         this.type = type;
         this.isLast = isLast;
         this.lastType = lastType;
+        this.imgName = "explosion_" + type;
+        if(isLast) {
+            this.imgName += "_" + lastType;
+        }
     }
 
     @Override
@@ -37,34 +39,20 @@ public class Fire extends Entity implements Initializable {
         int k = explodeTime / 6;
         switch (k) {
             case 3:
-                this.img = Sprite.bomb.getFxImage();
+                this.img = Sprite.sprite(this.imgName).getFxImage();
                 break;
             case 2: case 0:
-                this.img = Sprite.bomb_exploded1.getFxImage();
+                this.img = Sprite.sprite(this.imgName + "1").getFxImage();
                 break;
             default:
-                this.img = Sprite.bomb_exploded2.getFxImage();
+                this.img = Sprite.sprite(this.imgName + "2").getFxImage();
                 break;
         }
-        if(explodeTime < 0)
-        BombermanGame.damagesObjects.remove(this);
+        if(this.explodeTime < 0) BombermanGame.damagesObjects.remove(this);
     }
 
     @Override
-    public void update(Scene scene, KeyEvent event, List<Entity> entities) {
+    public void destroy() {
 
-    }
-
-    @Override
-    public boolean isAlive() {
-        return false;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.imgName = "explosion_" + type;
-        if(isLast) {
-            this.imgName += "_" + lastType;
-        }
     }
 }

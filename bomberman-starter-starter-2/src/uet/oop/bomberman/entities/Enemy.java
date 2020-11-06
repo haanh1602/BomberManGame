@@ -17,12 +17,7 @@ public class Enemy extends Entity{
     }
 
     @Override
-    public void update(Scene scene, KeyEvent event, List<Entity> entities) {
+    public void destroy() {
 
-    }
-
-    @Override
-    public boolean isAlive() {
-        return false;
     }
 }

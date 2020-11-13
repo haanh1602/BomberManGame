@@ -33,7 +33,7 @@ public class Effect extends Entity{
         }
     }*/
 
-    private void effectAnim() {
+    public void effectAnim() {
         int k = animCount++ / 10;
         this.img = new Image("sprites/" + type + (k % 3 + 1) + ".png");
         //System.out.println("sprites/" + type + (k%2 + 1) + ".png");

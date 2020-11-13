@@ -169,7 +169,6 @@ public class BombermanGame extends Application {
 
         };
         timer.start();
-        // test
     }
 
     private void createMap() {
@@ -226,6 +225,11 @@ public class BombermanGame extends Application {
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
+                        case '1':
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            damagesObjects.add(new Ballom(j, i, Sprite.balloom_left3.getFxImage()));
+                            break;
+
                         default:
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             break;

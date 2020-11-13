@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
+    protected Sprite sprite;
     protected double x;
     protected double y;
     protected Image img;
-
-    public Entity( double x, double y, Image img) {
+    public Entity(double x, double y, Image img) {
         this.x = x;
         this.y = y;
         this.img = img;

@@ -30,7 +30,7 @@ public class Bomber extends Entity {
         return (!isAlive);
     }
 
-    public static boolean checkStillObject(Bomber object) {
+    public static boolean checkStillObject(Entity object) {
         List<Entity> entityList = BombermanGame.stillObjects;
         for (Entity entity : entityList) {
             if (Math.round(entity.x) == Math.round(object.x) && Math.round(entity.y) == Math.round(object.y)) {
@@ -127,36 +127,36 @@ public class Bomber extends Entity {
         gc.drawImage(img, x * Sprite.SCALED_SIZE, y * Sprite.SCALED_SIZE);
     }
 
-    private boolean checkInstanceStill_Bomber(String type) {
+    public static boolean checkInstanceStill_Bomber(Entity object, String type) {
         int kx, ky;
         double _x, _y;
         boolean vertical = false;
         switch (type) {
             case "up":
                 vertical = true;
-                _x = x;
-                _y = Math.ceil(y);
+                _x = object.x;
+                _y = Math.ceil(object.y);
                 kx = 0;
                 ky = -1;
                 break;
             case "down":
                 vertical = true;
-                _x = x;
-                _y = Math.floor(y);
+                _x = object.x;
+                _y = Math.floor(object.y);
                 kx = 0;
                 ky = 1;
                 break;
             case "left":
                 //vertical = true;    // test
-                _x = Math.ceil(x);
-                _y = y;
+                _x = Math.ceil(object.x);
+                _y = object.y;
                 kx = -1;
                 ky = 0;
                 break;
             case "right":
                 //vertical = true;    //test
-                _x = Math.floor(x);
-                _y = y;
+                _x = Math.floor(object.x);
+                _y = object.y;
                 kx = 1;
                 ky = 0;
                 break;
@@ -181,7 +181,7 @@ public class Bomber extends Entity {
         }
         if(BombermanGame.input.up) {
             if(y > 1/* + (BombermanGame.speed - 1) * 0.05*/) {
-                if(checkInstanceStill_Bomber("up")) {
+                if(checkInstanceStill_Bomber(this ,"up")) {
                     this.y = y - 0.05 - 0.025 * (BombermanGame.speed - 1);
                     if(y < 1) y = 1;
                 }
@@ -197,7 +197,7 @@ public class Bomber extends Entity {
         }
         if(BombermanGame.input.down) {
             if(y < BombermanGame.HEIGHT - 2 /*- (BombermanGame.speed - 1) * 0.05*/) {
-                if(checkInstanceStill_Bomber("down")) {
+                if(checkInstanceStill_Bomber(this, "down")) {
                     this.y = this.y + 0.05 + 0.025 * (BombermanGame.speed - 1);
                     if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
                 }
@@ -212,7 +212,7 @@ public class Bomber extends Entity {
         }
         if(BombermanGame.input.left) {
             if(x > 1/* + (BombermanGame.speed - 1) * 0.05*/) {
-                if(checkInstanceStill_Bomber("left")) {
+                if(checkInstanceStill_Bomber(this, "left")) {
                     this.x = this.x - 0.05 - 0.025 * (BombermanGame.speed - 1);
                     if(x < 1) x = 1;
                 }
@@ -227,7 +227,7 @@ public class Bomber extends Entity {
         }
         if(BombermanGame.input.right) {
             if(x < BombermanGame.WIDTH - 2 /*- (BombermanGame.speed - 1) * 0.05*/) {
-                if(checkInstanceStill_Bomber("right")) {
+                if(checkInstanceStill_Bomber(this, "right")) {
                     this.x = this.x + 0.05 + 0.025 * (BombermanGame.speed - 1);
                     if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
                 }

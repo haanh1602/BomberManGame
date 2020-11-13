@@ -1,10 +1,6 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-
-import java.util.List;
 
 public class Enemy extends Entity{
     public Enemy(double x, double y, Image img) {

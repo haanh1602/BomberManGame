@@ -4,13 +4,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import javax.swing.*;
-
 public class Item extends Entity {
     public Item(double x, double y, Image img) {
         super(x, y, img);
     }
-    private boolean flame = false, bombs = false, speed = false;
+    private boolean flame = false, bombs = false, speed = false, flamePass = false;
 
     public Item Flame() {
         Item flame = new Item(x, y, Sprite.powerup_flames.getFxImage());
@@ -30,13 +28,36 @@ public class Item extends Entity {
         return speed;
     }
 
+    public Item FlamePass() {
+        Item flamePass = new Item(x, y, Sprite.powerup_flamepass.getFxImage());
+        flamePass.flamePass = true;
+        return flamePass;
+    }
+
     @Override
     public void update() {
         if(Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).x) == Math.round(x)
                 && Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).y) == Math.round(y)) {
-            if(bombs) Bomber.bombs += 1;
-            else if(flame) Bomber.flame += 1;
-            else if(speed) Bomber.speed += 1;
+            if(bombs) BombermanGame.bombs += 1;
+            else if(flame) BombermanGame.flame += 1;
+            else if(speed) {
+                if(!(BombermanGame.speed == BombermanGame.MAX_SPEED)) {
+                    BombermanGame.speed += 1;
+                }
+            }
+            else if(flamePass) {
+                try {
+                    if(BombermanGame.getBomber().flamePass) {
+                        BombermanGame.getBomber().flamePassRestart();
+                    } else {
+                        BombermanGame.getBomber().flamePass = true;
+                        BombermanGame.effects.add(
+                                new Effect(BombermanGame.getBomber().x, BombermanGame.getBomber().y, null, "FlamePass"));
+                    }
+                } catch (NullPointerException nullPointerException) {
+                    System.out.println("Bomber cannot found!");
+                }
+            }
             destroy();
         }
     }

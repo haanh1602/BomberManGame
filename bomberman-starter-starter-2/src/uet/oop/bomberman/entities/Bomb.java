@@ -1,8 +1,6 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -35,13 +33,12 @@ public class Bomb extends Entity {
 
     public static boolean checkInstanceStill(Entity object) {
         List<Entity> entityList = BombermanGame.stillObjects;
-        for(int i = 0; i < entityList.size(); i++) {
-            if((int) Math.round(object.x) == (int) Math.round(entityList.get(i).x)
-            && (int) Math.round(object.y) == (int) Math.round(entityList.get(i).y)) {
-                if(entityList.get(i) instanceof Wall) return true;
-                if(entityList.get(i) instanceof Brick) {
-                    if(entityList.get(i) instanceof Item) return true;
-                    if(!(object instanceof Bomber)) entityList.get(i).destroy();
+        for (Entity entity : entityList) {
+            if ((int) Math.round(object.x) == (int) Math.round(entity.x)
+                    && (int) Math.round(object.y) == (int) Math.round(entity.y)) {
+                if (entity instanceof Wall) return true;
+                if (entity instanceof Brick) {
+                    entity.destroy();
                     return true;
                 }
             }
@@ -53,38 +50,46 @@ public class Bomb extends Entity {
         for(int i = 0; i < BombermanGame.entities.size(); i++) {
             if((int) Math.round(object.x) == (int) Math.round(BombermanGame.entities.get(i).x)
                     && (int) Math.round(object.y) == (int) Math.round(BombermanGame.entities.get(i).y)) {
+                /*if(object instanceof Fire) {
+                    if(BombermanGame.entities.get(i) instanceof Bomber) {
+                        BombermanGame.entities.get(i).destroy();
+                    }
+                    if(BombermanGame.entities.get(i) instanceof Bomb) {
+                        // bomb chain
+                        BombermanGame.entities.get(i).destroy();
+                    }
+                    return true;
+                }*/
                 if(BombermanGame.entities.get(i) instanceof Bomb) {
+                    // duplicate bomb
+                    if(object instanceof Fire) {
+                        BombermanGame.entities.get(i).destroy();
+                    }
                     return true;
                 }
-                /*if(BombermanGame.entities.get(i) instanceof Bomber) {
-                    return false;
-                }*/
             }
         }
         return false;
     }
 
-    public void bombChain(Fire fire) {
-
-    }
-
-    public void makeFireCustom(String type, String trend) {
+    public void makeFireCustom(String type, String direction) {
         int kx = 1, ky = 1;
-        if(type == "horizontal") {
+        if(type.equals("horizontal")) {
             ky = 0;
-            if(trend == "right") kx = -1;
+            if(direction.equals("right")) kx = -1;
         } else {
             kx = 0;
-            if(trend == "down") ky = -1;
+            if(direction.equals("down")) ky = -1;
         }
-        for(int i = 1; i <= Bomber.flame; i++) {
+        for(int i = 1; i <= BombermanGame.flame; i++) {
             Fire fire;
-            if(i == Bomber.flame) {
-                fire = new Fire((int) Math.round(this.x) - i * kx, (int) Math.round(this.y) - i * ky, Sprite.grass.getFxImage(), type, true, trend + "_last");
+            if(i == BombermanGame.flame) {
+                fire = new Fire((int) Math.round(this.x) - i * kx, (int) Math.round(this.y) - i * ky, Sprite.grass.getFxImage(), type, true, direction + "_last");
             } else {
                 fire = new Fire((int) Math.round(this.x) - i * kx, (int) Math.round(this.y) - i * ky, Sprite.grass.getFxImage(), type, false);
             }
             if(!checkInstanceStill(fire)) {
+                checkInstanceBomb(fire);
                 BombermanGame.damagesObjects.add(fire);
             } else {
                 return;
@@ -93,6 +98,9 @@ public class Bomb extends Entity {
     }
 
     public void makeFire() {
+        Fire center = new Fire((int) Math.round(this.x), (int) Math.round(this.y), Sprite.grass.getFxImage());
+        BombermanGame.damagesObjects.add(center);
+        checkInstanceBomb(center);
         makeFireCustom("horizontal", "left");
         makeFireCustom("horizontal", "right");
         makeFireCustom("vertical", "down");
@@ -113,7 +121,7 @@ public class Bomb extends Entity {
                 this.img = Sprite.bomb_exploded2.getFxImage();
                 break;
         }
-        if(explodeTime < 0) {
+        if(explodeTime < -1) {
             BombermanGame.damagesObjects.remove(this);
         }
     }
@@ -124,10 +132,10 @@ public class Bomb extends Entity {
         bombAnimation();
         if(timeLeft <= 0) {
             if(timeLeft == 0) {
-                BombermanGame.damagesObjects.add(this);
                 BombermanGame.entities.remove(this);
                 Bomber.currentBombs--;
                 makeFire();
+                BombermanGame.damagesObjects.add(this);
             }
             bombExploded();
         }
@@ -135,6 +143,6 @@ public class Bomb extends Entity {
 
     @Override
     public void destroy() {
-        timeLeft = 1;
+        this.timeLeft = 5;
     }
 }

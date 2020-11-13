@@ -169,6 +169,7 @@ public class BombermanGame extends Application {
 
         };
         timer.start();
+        // test
     }
 
     private void createMap() {

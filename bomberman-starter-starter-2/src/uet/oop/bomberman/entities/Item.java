@@ -67,3 +67,5 @@ public class Item extends Entity {
         BombermanGame.stillObjects.remove(this);
     }
 }
+
+// test

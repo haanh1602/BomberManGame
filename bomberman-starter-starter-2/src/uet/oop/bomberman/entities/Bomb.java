@@ -18,14 +18,11 @@ public class Bomb extends Entity {
         int k = Math.abs(this.timeLeft / 18 % 4 - 1); // 10 images , 12 * 16 = 192ms per image
         switch (k) {
             case 2:
-                this.img = Sprite.bomb_2.getFxImage();
-                break;
+                this.img = Sprite.bomb_2.getFxImage(); break;
             case 1:
-                this.img = Sprite.bomb_1.getFxImage();
-                break;
+                this.img = Sprite.bomb_1.getFxImage(); break;
             case 0:
-                this.img = Sprite.bomb.getFxImage();
-                break;
+                this.img = Sprite.bomb.getFxImage(); break;
             default:
                 break;
         }
@@ -47,9 +44,9 @@ public class Bomb extends Entity {
     }
 
     public static boolean checkInstanceBomb(Entity object) {
-        for(int i = 0; i < BombermanGame.entities.size(); i++) {
-            if((int) Math.round(object.x) == (int) Math.round(BombermanGame.entities.get(i).x)
-                    && (int) Math.round(object.y) == (int) Math.round(BombermanGame.entities.get(i).y)) {
+        for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+            if((int) Math.round(object.x) == (int) Math.round(BombermanGame.stillObjects.get(i).x)
+                    && (int) Math.round(object.y) == (int) Math.round(BombermanGame.stillObjects.get(i).y)) {
                 /*if(object instanceof Fire) {
                     if(BombermanGame.entities.get(i) instanceof Bomber) {
                         BombermanGame.entities.get(i).destroy();
@@ -60,10 +57,10 @@ public class Bomb extends Entity {
                     }
                     return true;
                 }*/
-                if(BombermanGame.entities.get(i) instanceof Bomb) {
+                if(BombermanGame.stillObjects.get(i) instanceof Bomb) {
                     // duplicate bomb
                     if(object instanceof Fire) {
-                        BombermanGame.entities.get(i).destroy();
+                        BombermanGame.stillObjects.get(i).destroy();
                     }
                     return true;
                 }
@@ -132,8 +129,8 @@ public class Bomb extends Entity {
         bombAnimation();
         if(timeLeft <= 0) {
             if(timeLeft == 0) {
-                BombermanGame.entities.remove(this);
-                Bomber.currentBombs--;
+                BombermanGame.stillObjects.remove(this);
+                BombermanGame.getBomber().currentBombs--;
                 makeFire();
                 BombermanGame.damagesObjects.add(this);
             }

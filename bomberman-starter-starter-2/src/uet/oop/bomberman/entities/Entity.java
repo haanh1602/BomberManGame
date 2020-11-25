@@ -31,6 +31,10 @@ public abstract class Entity {
         this.img = img;
     }
 
+    public static double round1(double n) {
+        return (double) Math.round(n * 10) / 10;
+    }
+
     public void render(GraphicsContext gc) {
         /*SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);

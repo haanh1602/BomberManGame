@@ -38,12 +38,14 @@ public class Item extends Entity {
     public void update() {
         if(Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).x) == Math.round(x)
                 && Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).y) == Math.round(y)) {
-            if(bombs) BombermanGame.bombs += 1;
-            else if(flame) BombermanGame.flame += 1;
+            if(bombs) {
+                if(!(BombermanGame.bombs != BombermanGame.MAX_BOMBS)) BombermanGame.bombs += 1;
+            }
+            else if(flame) {
+                if(!(BombermanGame.flame == BombermanGame.MAX_FLAME)) BombermanGame.flame += 1;
+            }
             else if(speed) {
-                if(!(BombermanGame.speed == BombermanGame.MAX_SPEED)) {
-                    BombermanGame.speed += 1;
-                }
+                if(!(BombermanGame.speed == BombermanGame.MAX_SPEED)) BombermanGame.speed += 1;
             }
             else if(flamePass) {
                 try {

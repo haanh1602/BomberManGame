@@ -33,14 +33,11 @@ public class Fire extends Entity{
         if(imgName != null) {
             switch (k) {
                 case 3:
-                    this.img = Sprite.sprite(this.imgName).getFxImage();
-                    break;
+                    this.img = Sprite.sprite(this.imgName).getFxImage(); break;
                 case 2: case 0:
-                    this.img = Sprite.sprite(this.imgName + "1").getFxImage();
-                    break;
+                    this.img = Sprite.sprite(this.imgName + "1").getFxImage(); break;
                 default:
-                    this.img = Sprite.sprite(this.imgName + "2").getFxImage();
-                    break;
+                    this.img = Sprite.sprite(this.imgName + "2").getFxImage(); break;
             }
         }
         /*if(explodeTime > 0 && 12 % explodeTime == 2) {

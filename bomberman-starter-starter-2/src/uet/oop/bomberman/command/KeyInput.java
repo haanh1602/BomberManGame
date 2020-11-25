@@ -21,20 +21,24 @@ public class KeyInput {
         if(adminProcedure.length() == 3) {
             switch (adminProcedure) {
                 case "apf":
-                    BombermanGame.flame++;
-                    System.out.println("Power up flame: " + BombermanGame.flame);
+                    if(BombermanGame.flame != BombermanGame.MAX_FLAME) {
+                        BombermanGame.flame++;
+                        System.out.println("Power up flame: " + BombermanGame.flame);
+                    } else System.out.println("Flame is max!");
                     break;
                 case "aps":
                     if(!(BombermanGame.speed == BombermanGame.MAX_SPEED)) {
                         BombermanGame.speed++;
                         System.out.println("Power up speed: " + BombermanGame.speed);
                     } else {
-                        System.out.println("Speed is too fast! (6)");
+                        System.out.println("Speed is too fast!");
                     }
                     break;
                 case "apb":
-                    BombermanGame.bombs++;
-                    System.out.println("Power up bombs: " + BombermanGame.bombs);
+                    if(BombermanGame.bombs != BombermanGame.MAX_BOMBS) {
+                        BombermanGame.bombs++;
+                        System.out.println("Power up bombs: " + BombermanGame.bombs);
+                    } else System.out.println("Bombs is max!");
                     break;
                 case "ars":
                     resetBomberStatus();

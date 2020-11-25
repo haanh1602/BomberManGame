@@ -199,8 +199,8 @@ public class Bomber extends Entity {
                     if(round1(Math.abs(still.x - round1(object.x))) < space
                             && round1(object.y) - still.y > 0.7 && round1(object.y - still.y) <= round1(space)) {
                         if(still instanceof Wall || still instanceof Brick) {
-                            if (object instanceof Bomber)
-                                System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
+                            //if (object instanceof Bomber)
+                                //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }
                         else if(still instanceof Bomb) {
@@ -215,8 +215,8 @@ public class Bomber extends Entity {
                     if(round1(Math.abs(still.x - round1(object.x))) < space
                             && still.y - round1(object.y) > 0.7 && round1(still.y - object.y) <= round1(space)) {
                         if(still instanceof Wall || still instanceof Brick) {
-                            if(object instanceof Bomber)
-                                System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
+                            //if(object instanceof Bomber)
+                                //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }
                         else if(still instanceof Bomb) {
@@ -231,7 +231,7 @@ public class Bomber extends Entity {
                     if(round1(object.x) - still.x > 0.7 && round1(object.x - still.x) <= round1(space)
                             && round1(Math.abs(still.y - round1(object.y))) < space) {
                         if(still instanceof Wall || still instanceof Brick) {
-                            if(object instanceof Bomber) System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
+                            //if(object instanceof Bomber) //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }
                         else if(still instanceof Bomb) {
@@ -246,8 +246,7 @@ public class Bomber extends Entity {
                     if(still.x - round1(object.x) > 0.7 && round1(still.x - object.x) <= round1(space)
                             && round1(Math.abs(still.y - round1(object.y))) < space) {
                         if(still instanceof Wall || still instanceof Brick) {
-                            if(object instanceof Bomber)
-                                System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
+                            //if(object instanceof Bomber) System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }
                         else if(still instanceof Bomb) {
@@ -259,7 +258,7 @@ public class Bomber extends Entity {
             default:
                 break;
         }
-        if(object instanceof Bomber) System.out.println(type);
+        //if(object instanceof Bomber) System.out.println(type);
         return res;
     }
 
@@ -278,7 +277,7 @@ public class Bomber extends Entity {
                 }
             }
             setPlayerImg("player_up");
-            System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
+            //System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
         }
         if(BombermanGame.input.down) {
             if(y < BombermanGame.HEIGHT - 2 /*- (BombermanGame.speed - 1) * 0.05*/) {
@@ -288,7 +287,7 @@ public class Bomber extends Entity {
                 }
             }
             setPlayerImg("player_down");
-            System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
+            //System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
         }
         if(BombermanGame.input.left) {
             if(x > 1/* + (BombermanGame.speed - 1) * 0.05*/) {
@@ -298,7 +297,7 @@ public class Bomber extends Entity {
                 }
             }
             setPlayerImg("player_left");
-            System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
+            //System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
         }
         if(BombermanGame.input.right) {
             if(x < BombermanGame.WIDTH - 2 /*- (BombermanGame.speed - 1) * 0.05*/) {
@@ -308,7 +307,7 @@ public class Bomber extends Entity {
                 }
             }
             setPlayerImg("player_right");
-            System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
+            //System.out.println("Bomber: x: " + (double) Math.round(x * 10) / 10 + ", y = " + (double) Math.round(y * 10) / 10);
         }
         if(BombermanGame.input.space) {
             if(currentBombs == BombermanGame.bombs) return; // max of bombs

@@ -39,7 +39,7 @@ public class Item extends Entity {
         if(Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).x) == Math.round(x)
                 && Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).y) == Math.round(y)) {
             if(bombs) {
-                if(!(BombermanGame.bombs != BombermanGame.MAX_BOMBS)) BombermanGame.bombs += 1;
+                if(!(BombermanGame.bombs == BombermanGame.MAX_BOMBS)) BombermanGame.bombs += 1;
             }
             else if(flame) {
                 if(!(BombermanGame.flame == BombermanGame.MAX_FLAME)) BombermanGame.flame += 1;

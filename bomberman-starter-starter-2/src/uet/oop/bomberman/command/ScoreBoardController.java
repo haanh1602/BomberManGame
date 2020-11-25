@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import uet.oop.bomberman.BombermanGame;
 
 public class ScoreBoardController{
@@ -26,6 +27,7 @@ public class ScoreBoardController{
     }
 
     public void update() {
+
         this.score.setText(String.valueOf(BombermanGame.score));
         this.flame.setText(String.valueOf(BombermanGame.flame));
         this.bombs.setText(String.valueOf(BombermanGame.bombs));

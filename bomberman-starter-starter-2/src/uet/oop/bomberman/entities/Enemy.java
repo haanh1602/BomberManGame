@@ -96,6 +96,45 @@ public class Enemy extends Entity{
         }
     }
 
+    public void moveHandle() {
+        if (this.left) {
+            if(x > 1 && Bomber.checkInstanceStill(this, "left")) {
+                x -= 0.02 + 0.01 * (speed - 1);
+                if(x < 1) x = 1;
+                setImg(type + "_left");
+            } else {
+                setNewDirect();
+            }
+        }
+        else if (this.right) {
+            if(x < BombermanGame.WIDTH - 2 && Bomber.checkInstanceStill(this, "right")) {
+                x += 0.02 + 0.01 * (speed - 1);
+                if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
+                setImg(type + "_right");
+            } else {
+                setNewDirect();
+            }
+        }
+        else if (this.down) {
+            if(y < BombermanGame.HEIGHT - 2 && Bomber.checkInstanceStill(this, "down")) {
+                y += 0.02 + 0.01 * (speed - 1);
+                if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
+                setImg(type + "_right");
+            } else {
+                setNewDirect();
+            }
+        }
+        else if (up) {
+            if(y > 1 && Bomber.checkInstanceStill(this, "up")) {
+                y -= 0.02 + 0.01 * (speed - 1);
+                if(y < 1) y = 1;
+                setImg(type + "_left");
+            } else {
+                setNewDirect();
+            }
+        }
+    }
+
     @Override
     public void update() { }
 

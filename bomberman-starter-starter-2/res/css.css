@@ -1,8 +1,3 @@
-@font-face {
-    font-family: Bomberman;
-    src:url("Bomberman.ttf");
-}
-
 .bomberman_font {
     -fx-font-family: "Bomberman";
     -fx-font-size: 18px;

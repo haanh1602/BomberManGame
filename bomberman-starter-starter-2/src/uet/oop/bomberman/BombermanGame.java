@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.command.*;
 import uet.oop.bomberman.entities.*;
@@ -61,6 +62,7 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
+        Font.loadFont(getClass().getResourceAsStream("/Bomberman.ttf"), 16);
         this.stage = stage;
         createNewLevel(1);
 
@@ -223,8 +225,23 @@ public class BombermanGame extends Application {
                             break;
                         case '1':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
-                            Ballom ballom = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
+                            Ballom ballom = new Ballom(j, i, null);
                             damagesObjects.add(ballom);
+                            break;
+                        case '2':
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            Oneal oneal = new Oneal(j, i, null);
+                            damagesObjects.add(oneal);
+                            break;
+                        case '3':
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            Kondoria kondoria = new Kondoria(j, i, null);
+                            damagesObjects.add(kondoria);
+                            break;
+                        case '4':
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            Minvo minvo = new Minvo(j, i, null);
+                            damagesObjects.add(minvo);
                             break;
                         default:
                             object = new Grass(j, i, Sprite.grass.getFxImage());
@@ -278,7 +295,7 @@ public class BombermanGame extends Application {
     public void createNewLevel(int level) {
         this.level = String.valueOf(level);
         createMap();
-        Entity bomberman = new Bomber(2, 2, Sprite.player_right.getFxImage());
+        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();

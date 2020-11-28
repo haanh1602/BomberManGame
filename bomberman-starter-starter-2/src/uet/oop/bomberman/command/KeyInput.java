@@ -59,7 +59,8 @@ public class KeyInput {
                     break;
                 case "acp":
                     System.out.println("Bomber being champion...");
-                    Bomber.champion = true;
+                    BombermanGame.getBomber().invincibility = true;
+                    BombermanGame.getBomber().invincibilityTime = 3000/16;
                     break;
                 case "afp":
                     if(BombermanGame.entities.get(BombermanGame.entities.size() - 1) instanceof Bomber) {
@@ -80,6 +81,10 @@ public class KeyInput {
                 case "ade":
                     BombermanGame.destroyEnemy();
                     System.out.println("Destroy enemies");
+                    break;
+                case "adl":
+                    if(BombermanGame.life < BombermanGame.MAX_LIFE) BombermanGame.life++;
+                    System.out.println("Bomber +1 life");
                     break;
             }
             adminProcedure = "";

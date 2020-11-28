@@ -1,8 +1,8 @@
 1 13 31
 ###############################
-#   p  ** *  1 * 2 *  * * *   #
+#   p  i* *  1 * 2 *  * * *   #
 # # #s#*# # #*#*# # # #*#*#*# #
-# lx*   b ***  *   1  * 2 * * #
+# lxd   b ***  *   1  * 2 * * #
 # # # # # #*# # #*#*# # # # #*#
 #f         x **  *  *   3     #
 # # # # # # # # # #*# #*# # # #
@@ -36,5 +36,7 @@ b - Bomb Item
 f - Flame Item
 s - Speed Item
 l - FlamePass Item
+i - Invincibility Item
+d - Detonator Item
 
 Kí tự khác các kí tự trên - Grass

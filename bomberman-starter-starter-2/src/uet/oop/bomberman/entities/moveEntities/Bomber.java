@@ -19,8 +19,8 @@ public class Bomber extends MoveEntities {
     public boolean flamePass = false;
     private int flamePassTime = 625; // 10s
 
-    public static boolean champion = false;
-    private int championTime = 625; // 10s
+    public boolean invincibility = false;
+    public int invincibilityTime = 3000/16;
 
     private boolean isAlive = true;
 
@@ -205,11 +205,15 @@ public class Bomber extends MoveEntities {
                 System.out.println("Flame-pass expired");
             }
         }
-        if(!champion) checkInstanceDamages(BombermanGame.getBomber());
+        if(!invincibility) checkInstanceDamages(BombermanGame.getBomber());
         else {
-            championTime--;
-            if(championTime == 0) {
-                champion = false;
+            invincibilityTime--;
+            if(invincibilityTime % (1000/16) == 0) {
+                System.out.println(invincibilityTime / (1000/16));
+            }
+            if(invincibilityTime == 0) {
+                invincibility = false;
+                invincibilityTime = 3000/16;
             }
         }
     }
@@ -232,5 +236,6 @@ public class Bomber extends MoveEntities {
         }
         SoundController.makeSound("Get_Damage.mp3");
         BombermanGame.getBomber().restart();
+        invincibility = true;
     }
 }

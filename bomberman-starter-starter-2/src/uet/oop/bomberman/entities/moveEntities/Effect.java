@@ -53,15 +53,15 @@ public class Effect extends MoveEntities {
                     destroy();
                 }
                 break;
-            case "Champion":
-                if(BombermanGame.getBomber().champion) {
-                    effectAnim();
-                    x = BombermanGame.getBomber().getX();
-                    y = BombermanGame.getBomber().getY();
-                } else {
-                    destroy();
-                }
-                break;
+//            case "Champion":
+//                if(BombermanGame.getBomber().champion) {
+//                    effectAnim();
+//                    x = BombermanGame.getBomber().getX();
+//                    y = BombermanGame.getBomber().getY();
+//                } else {
+//                    destroy();
+//                }
+//                break;
         }
     }
 

@@ -32,8 +32,8 @@ public class Sound {
     }
 
     public Sound() {
-        makeBomb.setVolume(4);
-        bombExplodes.setVolume(4);
+        makeBomb.setVolume(8);
+        bombExplodes.setVolume(10);
         findTheExit.setVolume(0.7);
     }
 

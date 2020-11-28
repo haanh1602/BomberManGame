@@ -12,10 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.command.*;
@@ -35,10 +34,9 @@ import uet.oop.bomberman.sound.SoundController;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static uet.oop.bomberman.sound.SoundController.makeSound;
 
 //import javafx.scene.canvas.Canvas;
 
@@ -254,6 +252,19 @@ public class BombermanGame extends Application {
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
+                        case 'i':
+                            URL url = BombermanGame.class.getResource("/sprites/powerup_invincibility.png");
+                            object = new InvincibilityItem(j, i, new Image(url.toString()));
+                            stillObjects.add(object);
+                            stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            item = true;
+                            break;
+                        case 'd':
+                            object = new DetonatorItem(j, i, Sprite.powerup_detonator.getFxImage());
+                            stillObjects.add(object);
+                            stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            item = true;
+                            break;
                         case '1':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             Ballom ballom = new Ballom(j, i, null);
@@ -329,7 +340,7 @@ public class BombermanGame extends Application {
 
     public void createNewLevel(int level) {
         sound.currentThemeSound = sound.findTheExit;
-        //SoundController.makeSound("Level_Start.mp3").play();
+        SoundController.makeSound("Level_Start.mp3").play();
         sound.replay(sound.currentThemeSound);
         sound.repeat(sound.currentThemeSound);
         this.level = String.valueOf(level);
@@ -352,18 +363,19 @@ public class BombermanGame extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../../../panes/LevelScene.fxml"));
             levelScene = fxmlLoader.load();
+            System.out.println(levelScene.getPrefWidth() + ", " + levelScene.getPrefHeight());
             levelSceneController = fxmlLoader.getController();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         levelScene.relocate(0, 0);
-        levelScene.setPrefSize(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        levelScene.setPrefSize(canvas.getWidth(), canvas.getHeight());
         System.out.println(levelScene.getPrefWidth() + ", " + levelScene.getPrefHeight());
         System.out.println(canvas.getWidth() + ", " + canvas.getHeight());
         root.getChildren().clear();
         root.getChildren().add(canvas);         // index 0
         root.getChildren().add(scoreBoard);     // index 1
-        root.getChildren().add(levelScene);     // index 2
+        //root.getChildren().add(levelScene);     // index 2
         scene.setRoot(root);
         stage.sizeToScene();
     }

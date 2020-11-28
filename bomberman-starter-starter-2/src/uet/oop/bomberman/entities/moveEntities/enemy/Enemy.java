@@ -1,16 +1,14 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.moveEntities.enemy;
 
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.moveEntities.Bomber;
+import uet.oop.bomberman.entities.moveEntities.MoveEntities;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.List;
+import static uet.oop.bomberman.entities.moveEntities.enemy.Ballom.random;
 
-import static uet.oop.bomberman.entities.Ballom.random;
-
-public class Enemy extends Entity{
+public class Enemy extends MoveEntities {
     public boolean left = false;
     public boolean right = false;
     public boolean up = false;
@@ -140,8 +138,10 @@ public class Enemy extends Entity{
 
     @Override
     public void destroy() {
+        sound.kill_Enemy.play();
         BombermanGame.damagesObjects.remove(this);
         BombermanGame.stillObjects.add(this);
         dying = true;
+
     }
 }

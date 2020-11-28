@@ -3,6 +3,16 @@
     -fx-font-size: 18px;
 }
 
+.level_scene {
+    -fx-background-color: rgba(37,40,48,0.99);
+}
+
+.level_scene .text {
+    -fx-background-color: transparent;
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 40px;
+}
+
 .score_font {
     -fx-font-family: "Bomberman";
     -fx-font-size: 30px;

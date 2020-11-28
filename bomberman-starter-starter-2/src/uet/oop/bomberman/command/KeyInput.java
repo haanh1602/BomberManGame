@@ -2,7 +2,10 @@ package uet.oop.bomberman.command;
 
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.moveEntities.Bomber;
+import uet.oop.bomberman.entities.moveEntities.Effect;
+import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
+import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class KeyInput {
@@ -49,8 +52,7 @@ public class KeyInput {
                         if(BombermanGame.stillObjects.get(i) instanceof Brick) {
                             Brick temp = (Brick) BombermanGame.stillObjects.get(i);
                             BombermanGame.stillObjects.remove(temp);
-                            BombermanGame.stillObjects.add(0,
-                                    new Grass((int) Math.round(temp.getX()), (int) Math.round(temp.getY()), Sprite.grass.getFxImage()));
+                            BombermanGame.stillObjects.add(0, new Grass((int) Math.round(temp.getX()), (int) Math.round(temp.getY()), Sprite.grass.getFxImage()));
                         }
                     }
                     System.out.println("Bricks are cleared");
@@ -74,6 +76,10 @@ public class KeyInput {
                         }
                         System.out.println("Flame-pass mode...");
                     }
+                    break;
+                case "ade":
+                    BombermanGame.destroyEnemy();
+                    System.out.println("Destroy enemies");
                     break;
             }
             adminProcedure = "";

@@ -1,14 +1,16 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.moveEntities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.stillEntities.mortal.Bomb;
+import uet.oop.bomberman.entities.stillEntities.immortal.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.sound.SoundController;
 
-import java.util.List;
-
-public class Bomber extends Entity {
-
+public class Bomber extends MoveEntities {
     public int currentBombs = 0;
     private int animMoveCount = 0;
     private int deadAnim = 99; //~ 1.5s
@@ -22,74 +24,13 @@ public class Bomber extends Entity {
 
     private boolean isAlive = true;
 
-    public Bomber(double x, double y, Image img) { super( x, y, img); }
+    public Bomber(double x, double y, Image img) {
+        super( x, y, img);
+        sound.repeat(sound.walking);
+    }
 
     public boolean isDead() {
         return (!isAlive);
-    }
-
-    public static boolean checkStillObject(Entity object) {
-        List<Entity> entityList = BombermanGame.stillObjects;
-        for (Entity entity : entityList) {
-            if (Math.round(entity.x) == Math.round(object.x) && Math.round(entity.y) == Math.round(object.y)) {
-                if (entity instanceof Wall) return true;
-                if (entity instanceof Brick) {
-                    return true;
-                }
-                /*if(entity instanceof Fire) {
-                    return true;
-                }*/
-            }
-        }
-        /*if(object instanceof Bomber) {
-            for(int i = 0; i < BombermanGame.entities.size() - 1; i++) {
-                if (Math.round(BombermanGame.entities.get(i).x) == Math.round(object.x)
-                        && Math.round(BombermanGame.entities.get(i).y) == Math.round(object.y)) {
-                    if(BombermanGame.entities.get(i) instanceof Bomb) {
-                        Bomb bomb = (Bomb) BombermanGame.entities.get(i);
-                        if(Math.abs(object.x - bomb.getX()) < 0.4 && Math.abs(object.y - bomb.getY()) < 0.4) {
-                            return false;
-                        }
-                        return true;
-                    }
-                }
-            }
-        }*/
-        return false;
-    }
-
-    public static boolean checkCollisionBomb(Entity object, String type) {
-        for(int i = 0; i < BombermanGame.entities.size() - 1; i++) {
-            if(BombermanGame.entities.get(i) instanceof Bomb) {
-                Bomb bomb = (Bomb) BombermanGame.entities.get(i);
-                if(Math.abs(object.x - bomb.getX()) < 0.8 && Math.abs(object.y - bomb.getY()) < 0.8) {
-                    return false;
-                } else {
-
-                }
-            }
-        }
-        return false;
-    }
-
-    public static boolean checkInstanceDamages(Entity object) {
-        for(int i = 0; i < BombermanGame.damagesObjects.size(); i++) {
-            if((int) Math.round(object.x) == (int) Math.round(BombermanGame.damagesObjects.get(i).x)
-                    && (int) Math.round(object.y) == (int) Math.round(BombermanGame.damagesObjects.get(i).y)) {
-                if(object instanceof Bomber) {
-                    if(BombermanGame.damagesObjects.get(i) instanceof Fire || BombermanGame.damagesObjects.get(i) instanceof Bomb) {
-                        if(((Bomber) object).flamePass) return true;
-                    }
-                    object.destroy();
-                } else if(object instanceof Enemy){
-                    if((BombermanGame.damagesObjects.get(i) instanceof Fire || BombermanGame.damagesObjects.get(i) instanceof Bomb)) {
-                        object.destroy();
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     public void flamePassRestart() {
@@ -113,7 +54,7 @@ public class Bomber extends Entity {
         }
     }
 
-    public void deadAnimation() {
+    private void deadAnimation() {
         //if(deadAnim == 0) BombermanGame.entities.remove(this);
         if(deadAnim > 0) {
             int k = deadAnim-- / 33;
@@ -151,29 +92,29 @@ public class Bomber extends Entity {
         switch (type) {
             case "up":
                 vertical = true;
-                _x = object.x;
-                _y = Math.ceil(object.y);
+                _x = object.getX();
+                _y = Math.ceil(object.getY());
                 kx = 0;
                 ky = -1;
                 break;
             case "down":
                 vertical = true;
-                _x = object.x;
-                _y = Math.floor(object.y);
+                _x = object.getX();
+                _y = Math.floor(object.getY());
                 kx = 0;
                 ky = 1;
                 break;
             case "left":
                 //vertical = true;    // test
-                _x = Math.ceil(object.x);
-                _y = object.y;
+                _x = Math.ceil(object.getX());
+                _y = object.getY();
                 kx = -1;
                 ky = 0;
                 break;
             case "right":
                 //vertical = true;    //test
-                _x = Math.floor(object.x);
-                _y = object.y;
+                _x = Math.floor(object.getX());
+                _y = object.getY();
                 kx = 1;
                 ky = 0;
                 break;
@@ -189,85 +130,17 @@ public class Bomber extends Entity {
         return res;
     }
 
-    public static boolean checkInstanceStill(Entity object, String type) {
-        boolean res = true;
-        double space = (object instanceof Bomber)? 0.9 : 1.0;
-        switch (type) {
-            case "up":
-                for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-                    Entity still = BombermanGame.stillObjects.get(i);
-                    if(round1(Math.abs(still.x - round1(object.x))) < space
-                            && round1(object.y) - still.y > 0.7 && round1(object.y - still.y) <= round1(space)) {
-                        if(still instanceof Wall || still instanceof Brick) {
-                            //if (object instanceof Bomber)
-                                //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
-                            res = false;
-                        }
-                        else if(still instanceof Bomb) {
-                            res = false;
-                        }
-                    }
-                }
-                break;
-            case "down":
-                for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-                    Entity still = BombermanGame.stillObjects.get(i);
-                    if(round1(Math.abs(still.x - round1(object.x))) < space
-                            && still.y - round1(object.y) > 0.7 && round1(still.y - object.y) <= round1(space)) {
-                        if(still instanceof Wall || still instanceof Brick) {
-                            //if(object instanceof Bomber)
-                                //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
-                            res = false;
-                        }
-                        else if(still instanceof Bomb) {
-                            res = false;
-                        }
-                    }
-                }
-                break;
-            case "left":
-                for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-                    Entity still = BombermanGame.stillObjects.get(i);
-                    if(round1(object.x) - still.x > 0.7 && round1(object.x - still.x) <= round1(space)
-                            && round1(Math.abs(still.y - round1(object.y))) < space) {
-                        if(still instanceof Wall || still instanceof Brick) {
-                            //if(object instanceof Bomber) //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
-                            res = false;
-                        }
-                        else if(still instanceof Bomb) {
-                            res = false;
-                        }
-                    }
-                }
-                break;
-            case "right":
-                for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-                    Entity still = BombermanGame.stillObjects.get(i);
-                    if(still.x - round1(object.x) > 0.7 && round1(still.x - object.x) <= round1(space)
-                            && round1(Math.abs(still.y - round1(object.y))) < space) {
-                        if(still instanceof Wall || still instanceof Brick) {
-                            //if(object instanceof Bomber) System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
-                            res = false;
-                        }
-                        else if(still instanceof Bomb) {
-                            res = false;
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        //if(object instanceof Bomber) System.out.println(type);
-        return res;
-    }
-
     @Override
     public void update() {
         if(bombed) {
             deadAnimation();
             if(deadAnim == 0) isAlive = false;
             return;
+        }
+        if(!(BombermanGame.input.up) && !(BombermanGame.input.down) && !(BombermanGame.input.left) && !(BombermanGame.input.right)) {
+            sound.walking.stop();
+        } else {
+            sound.walking.play();
         }
         if(BombermanGame.input.up) {
             if(y > 1/* + (BombermanGame.speed - 1) * 0.05*/) {
@@ -311,11 +184,11 @@ public class Bomber extends Entity {
         }
         if(BombermanGame.input.space) {
             if(currentBombs == BombermanGame.bombs) return; // max of bombs
-            if(!(Math.abs(x - (int)x - 0.5) <= 0.075 || Math.abs(y - (int)y - 0.5) <= 0.075)) {
+            if(!(Math.abs(x - (int)x - 0.5) <= 0.05 || Math.abs(y - (int)y - 0.5) <= 0.05)) {
                 int bomb_x = (int) Math.round(x);
                 int bomb_y = (int) Math.round(y);
-                Bomb bomb = new Bomb(bomb_x, bomb_y, Sprite.bomb.getFxImage());
-                if(!Bomb.checkInstanceBomb(bomb)) {
+                if(!Bomb.checkInstanceBomb(new Wall(bomb_x, bomb_y, null))) {
+                    Bomb bomb = new Bomb(bomb_x, bomb_y, Sprite.bomb.getFxImage());
                     BombermanGame.stillObjects.add(bomb);
                     currentBombs++;
                 }
@@ -346,14 +219,18 @@ public class Bomber extends Entity {
         this.y = 1;
     }
 
+
+
     @Override
     public void destroy() {
         BombermanGame.life -= 1;
         if(BombermanGame.life == 0) {
             bombed = true;
+            BombermanGame.sound.stopAll();
+            sound.death.play();
             return;
         }
+        SoundController.makeSound("Get_Damage.mp3");
         BombermanGame.getBomber().restart();
     }
-
 }

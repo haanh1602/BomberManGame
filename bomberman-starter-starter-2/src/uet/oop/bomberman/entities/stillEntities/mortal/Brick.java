@@ -1,14 +1,12 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.stillEntities.mortal;
 
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
+import uet.oop.bomberman.entities.stillEntities.StillEntities;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.List;
-
-public class Brick extends Entity {
+public class Brick extends MortalStill {
     private int explodeTime = 24;
     private boolean still = true;
     public Brick(int x, int y, Image img) {

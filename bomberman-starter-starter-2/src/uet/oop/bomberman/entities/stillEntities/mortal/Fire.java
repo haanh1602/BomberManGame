@@ -1,10 +1,12 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.stillEntities.mortal;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.stillEntities.StillEntities;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Fire extends Entity{
+public class Fire extends MortalStill {
     private int explodeTime = 23; // because explodeBomb() in Bomb runs sooner than 'this' 1 frame
     private String imgName;
 

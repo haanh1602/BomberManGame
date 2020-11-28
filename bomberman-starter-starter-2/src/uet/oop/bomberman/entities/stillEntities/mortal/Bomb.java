@@ -1,17 +1,24 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.stillEntities.mortal;
 
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.stillEntities.immortal.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.sound.SoundController;
 
 import java.util.List;
 
-public class Bomb extends Entity {
+public class Bomb extends MortalStill {
+    private Sound sound = new Sound();
     private int timeLeft = 180; // 1 frame takes 16ms, 60 frame = 960 ms ~ 1s, 120 frame ~ 2s
     private int explodeTime = 24;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
+        sound.makeBomb.play();
     }
 
     private void bombAnimation() {
@@ -28,14 +35,15 @@ public class Bomb extends Entity {
         }
     }
 
-    public static boolean checkInstanceStill(Entity object) {
+    private boolean checkFireInstanceStill(Entity object) {
         List<Entity> entityList = BombermanGame.stillObjects;
-        for (Entity entity : entityList) {
-            if ((int) Math.round(object.x) == (int) Math.round(entity.x)
-                    && (int) Math.round(object.y) == (int) Math.round(entity.y)) {
+        for (int i = 0; i < entityList.size(); i++) {
+            Entity entity = entityList.get(i);
+            if ((int) Math.round(object.getX()) == (int) Math.round(entity.getX())
+                    && (int) Math.round(object.getY()) == (int) Math.round(entity.getY())) {
                 if (entity instanceof Wall) return true;
                 if (entity instanceof Brick) {
-                    entity.destroy();
+                    ((Brick)entity).destroy();
                     return true;
                 }
             }
@@ -45,22 +53,12 @@ public class Bomb extends Entity {
 
     public static boolean checkInstanceBomb(Entity object) {
         for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-            if((int) Math.round(object.x) == (int) Math.round(BombermanGame.stillObjects.get(i).x)
-                    && (int) Math.round(object.y) == (int) Math.round(BombermanGame.stillObjects.get(i).y)) {
-                /*if(object instanceof Fire) {
-                    if(BombermanGame.entities.get(i) instanceof Bomber) {
-                        BombermanGame.entities.get(i).destroy();
-                    }
-                    if(BombermanGame.entities.get(i) instanceof Bomb) {
-                        // bomb chain
-                        BombermanGame.entities.get(i).destroy();
-                    }
-                    return true;
-                }*/
+            if((int) Math.round(object.getX()) == (int) Math.round(BombermanGame.stillObjects.get(i).getX())
+                    && (int) Math.round(object.getY()) == (int) Math.round(BombermanGame.stillObjects.get(i).getY())) {
                 if(BombermanGame.stillObjects.get(i) instanceof Bomb) {
                     // duplicate bomb
                     if(object instanceof Fire) {
-                        BombermanGame.stillObjects.get(i).destroy();
+                        ((MortalStill)BombermanGame.stillObjects.get(i)).destroy();
                     }
                     return true;
                 }
@@ -69,7 +67,7 @@ public class Bomb extends Entity {
         return false;
     }
 
-    public void makeFireCustom(String type, String direction) {
+    private void makeFireCustom(String type, String direction) {
         int kx = 1, ky = 1;
         if(type.equals("horizontal")) {
             ky = 0;
@@ -85,7 +83,7 @@ public class Bomb extends Entity {
             } else {
                 fire = new Fire((int) Math.round(this.x) - i * kx, (int) Math.round(this.y) - i * ky, Sprite.grass.getFxImage(), type, false);
             }
-            if(!checkInstanceStill(fire)) {
+            if(!checkFireInstanceStill(fire)) {
                 checkInstanceBomb(fire);
                 BombermanGame.damagesObjects.add(fire);
             } else {
@@ -94,7 +92,7 @@ public class Bomb extends Entity {
         }
     }
 
-    public void makeFire() {
+    private void makeFire() {
         Fire center = new Fire((int) Math.round(this.x), (int) Math.round(this.y), Sprite.grass.getFxImage());
         BombermanGame.damagesObjects.add(center);
         checkInstanceBomb(center);
@@ -104,7 +102,7 @@ public class Bomb extends Entity {
         makeFireCustom("vertical", "top");
     }
 
-    public void bombExploded() {
+    private void bombExploded() {
         explodeTime--;
         int k = explodeTime / 6;
         switch (k) {
@@ -131,6 +129,7 @@ public class Bomb extends Entity {
             if(timeLeft == 0) {
                 BombermanGame.stillObjects.remove(this);
                 BombermanGame.getBomber().currentBombs--;
+                sound.bombExplodes.play();
                 makeFire();
                 BombermanGame.damagesObjects.add(this);
             }

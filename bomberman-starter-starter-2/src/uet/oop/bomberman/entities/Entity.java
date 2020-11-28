@@ -3,9 +3,10 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 public abstract class Entity {
-    protected Sprite sprite;
+    //protected Sprite sprite;
     protected double x;
     protected double y;
     protected Image img;
@@ -44,7 +45,5 @@ public abstract class Entity {
         gc.drawImage(img, x * Sprite.SCALED_SIZE, y * Sprite.SCALED_SIZE);
     }
     public abstract void update();
-
-    public abstract void destroy();
 
 }

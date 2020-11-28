@@ -27,7 +27,6 @@ public class ScoreBoardController{
     }
 
     public void update() {
-
         this.score.setText(String.valueOf(BombermanGame.score));
         this.flame.setText(String.valueOf(BombermanGame.flame));
         this.bombs.setText(String.valueOf(BombermanGame.bombs));

@@ -1,27 +1,44 @@
 package uet.oop.bomberman;
 
+/*
+    SDK 1.8 java version 1.8.0_261
+ */
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.command.*;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.moveEntities.enemy.*;
+import uet.oop.bomberman.entities.moveEntities.Bomber;
+import uet.oop.bomberman.entities.moveEntities.Effect;
+import uet.oop.bomberman.entities.stillEntities.mortal.item.*;
+import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
+import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
+import uet.oop.bomberman.entities.stillEntities.immortal.Portal;
+import uet.oop.bomberman.entities.stillEntities.immortal.Wall;
 import uet.oop.bomberman.graphics.*;
+import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.sound.SoundController;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static uet.oop.bomberman.sound.SoundController.makeSound;
 
 //import javafx.scene.canvas.Canvas;
 
@@ -38,6 +55,7 @@ public class BombermanGame extends Application {
     private Group root = new Group();
     private Scene scene = new Scene(root);
     private Stage stage = new Stage();
+    public static Sound sound = new Sound();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
     public static List<Entity> damagesObjects = new ArrayList<>();
@@ -45,6 +63,8 @@ public class BombermanGame extends Application {
 
     AnchorPane scoreBoard = null;
     ScoreBoardController scoreBoardController = null;
+    AnchorPane levelScene = null;
+    LevelSceneController levelSceneController = null;
 
     // Bomber status
     public static int life = 3;
@@ -55,6 +75,10 @@ public class BombermanGame extends Application {
     public static final int MAX_SPEED = 3;
     public static int bombs = 1;
     public static final int MAX_BOMBS = 10;
+    public static int levelMaxScore = 0;
+
+    private int time_levelScene = 3500/16;
+    private boolean levelStart = false;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -148,6 +172,7 @@ public class BombermanGame extends Application {
                         if(root.getChildren().size() > 2) root.getChildren().remove(2);
                         //System.out.println(root.getChildren().size());
                         update();
+                        portalHandle();
                     }
                     else {
                         if(root.getChildren().size() > 2) root.getChildren().remove(2);
@@ -199,27 +224,33 @@ public class BombermanGame extends Application {
                         case '*':
                             object = new Brick(j, i, Sprite.brick.getFxImage());
                             break;
+                        case 'p':
+                            //object = new Portal(j, i, Sprite.portal.getFxImage());
+                            stillObjects.add(0, new Portal(j, i, Sprite.portal.getFxImage()));
+                            object = new Brick(j, i, Sprite.brick.getFxImage());
+                            //stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            break;
                         case 'b':
-                            object = new Item(j, i, null).Bombs();
-                            stillObjects.add(0, object);
+                            object = new BombsItem(j, i, Sprite.powerup_bombs.getFxImage());
+                            stillObjects.add(object);
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
                         case 'f':
-                            object = new Item(j, i, null).Flame();
-                            stillObjects.add(0, object);
+                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
+                            stillObjects.add(object);
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
                         case 's':
-                            object = new Item(j, i, null).Speed();
-                            stillObjects.add(0, object);
+                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
+                            stillObjects.add(object);
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
                         case 'l':
-                            object = new Item(j, i, null).FlamePass();
-                            stillObjects.add(0, object);
+                            object = new FlamePassItem(j, i, Sprite.powerup_flamepass.getFxImage());
+                            stillObjects.add(object);
                             stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                             item = true;
                             break;
@@ -227,21 +258,25 @@ public class BombermanGame extends Application {
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             Ballom ballom = new Ballom(j, i, null);
                             damagesObjects.add(ballom);
+                            levelMaxScore += 100;
                             break;
                         case '2':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             Oneal oneal = new Oneal(j, i, null);
                             damagesObjects.add(oneal);
+                            levelMaxScore += 200;
                             break;
                         case '3':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             Kondoria kondoria = new Kondoria(j, i, null);
                             damagesObjects.add(kondoria);
+                            levelMaxScore += 1000;
                             break;
                         case '4':
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             Minvo minvo = new Minvo(j, i, null);
                             damagesObjects.add(minvo);
+                            levelMaxScore += 800;
                             break;
                         default:
                             object = new Grass(j, i, Sprite.grass.getFxImage());
@@ -293,6 +328,10 @@ public class BombermanGame extends Application {
     }
 
     public void createNewLevel(int level) {
+        sound.currentThemeSound = sound.findTheExit;
+        //SoundController.makeSound("Level_Start.mp3").play();
+        sound.replay(sound.currentThemeSound);
+        sound.repeat(sound.currentThemeSound);
         this.level = String.valueOf(level);
         createMap();
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
@@ -300,21 +339,31 @@ public class BombermanGame extends Application {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
         try {
-            System.out.println(getClass().getResource("../../../panes/ScoreBoard.fxml"));
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../../../panes/ScoreBoard.fxml"));
             scoreBoard = fxmlLoader.load();
             scoreBoardController = fxmlLoader.getController();
-            //stage.setScene(new Scene(scoreBoard));
-            System.out.println("Load scoreBoard successfully!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         scoreBoard.relocate(Sprite.SCALED_SIZE * WIDTH, 0);
         scoreBoard.setPrefHeight(Sprite.SCALED_SIZE * HEIGHT);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../../../panes/LevelScene.fxml"));
+            levelScene = fxmlLoader.load();
+            levelSceneController = fxmlLoader.getController();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        levelScene.relocate(0, 0);
+        levelScene.setPrefSize(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        System.out.println(levelScene.getPrefWidth() + ", " + levelScene.getPrefHeight());
+        System.out.println(canvas.getWidth() + ", " + canvas.getHeight());
         root.getChildren().clear();
         root.getChildren().add(canvas);         // index 0
         root.getChildren().add(scoreBoard);     // index 1
+        root.getChildren().add(levelScene);     // index 2
         scene.setRoot(root);
         stage.sizeToScene();
     }
@@ -324,6 +373,35 @@ public class BombermanGame extends Application {
             return (Bomber) BombermanGame.entities.get(BombermanGame.entities.size() - 1);
         } else {
             return null;
+        }
+    }
+
+    public static Portal getPortal() {
+        for(int i = 0; i < stillObjects.size(); i++) {
+            if(stillObjects.get(i) instanceof Portal) {
+                return (Portal) stillObjects.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void portalHandle() {
+        if((int) Math.round(getBomber().getX()) == (int) BombermanGame.getPortal().getX()
+                && (int) Math.round(getBomber().getY()) == (int) BombermanGame.getPortal().getY()) {
+            if(BombermanGame.getPortal().isOpen) {
+                System.out.println("Create new level " + (Integer.parseInt(level) + 1));
+                createNewLevel(Integer.parseInt(level) + 1);
+            }
+        }
+    }
+
+    public static void destroyEnemy() {
+        for(int i = 0; i < damagesObjects.size();) {
+            if(damagesObjects.get(i) instanceof Enemy) {
+                ((Enemy)damagesObjects.get(i)).destroy();
+                i = 0;
+            }
+            else break;
         }
     }
 }

@@ -1,6 +1,7 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.moveEntities.enemy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.moveEntities.Bomber;
 
 public class Minvo extends Enemy {
     public Minvo(double x, double y, Image img) {

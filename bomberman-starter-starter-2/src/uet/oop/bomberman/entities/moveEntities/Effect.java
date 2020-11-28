@@ -1,9 +1,9 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.moveEntities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 
-public class Effect extends Entity{
+public class Effect extends MoveEntities {
 
     private int animCount = 0;
     private String type;
@@ -47,8 +47,8 @@ public class Effect extends Entity{
                 if(BombermanGame.getBomber().flamePass /*|| test*/) {
                     effectAnim();
                     //if(test) return;
-                    x = BombermanGame.getBomber().x;
-                    y = BombermanGame.getBomber().y;
+                    x = BombermanGame.getBomber().getX();
+                    y = BombermanGame.getBomber().getY();
                 } else {
                     destroy();
                 }
@@ -56,8 +56,8 @@ public class Effect extends Entity{
             case "Champion":
                 if(BombermanGame.getBomber().champion) {
                     effectAnim();
-                    x = BombermanGame.getBomber().x;
-                    y = BombermanGame.getBomber().y;
+                    x = BombermanGame.getBomber().getX();
+                    y = BombermanGame.getBomber().getY();
                 } else {
                     destroy();
                 }

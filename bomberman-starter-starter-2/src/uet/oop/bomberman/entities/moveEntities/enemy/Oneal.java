@@ -7,8 +7,6 @@ import uet.oop.bomberman.entities.moveEntities.Bomber;
 import java.util.Random;
 
 public class Oneal extends Enemy {
-    public static Random random = new Random();
-
     public Oneal(double x, double y, Image img) {
         super(x, y, img);
         this.speed = 1;
@@ -57,16 +55,6 @@ public class Oneal extends Enemy {
                 setNewDirect();
                 speed = random.nextInt(4) + 1;
             }
-        }
-    }
-
-    @Override
-    public void update() {
-        if (dying) {
-            deadHandle();
-        } else {
-            moveHandle();
-            Bomber.checkInstanceDamages(this);
         }
     }
 }

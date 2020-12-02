@@ -15,6 +15,7 @@ public class Portal extends StillEntities {
     public void update() {
         if(!(isOpen) && BombermanGame.score == BombermanGame.levelMaxScore) {
             this.isOpen = true;
+            this.img = new Image(String.valueOf(Portal.class.getResource("/sprites/portal_open.png")));
         }
     }
 }

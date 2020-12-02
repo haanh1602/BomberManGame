@@ -16,6 +16,12 @@ public class SoundController {
         return mediaPlayer;
     }
 
+    public static MediaPlayer makeSound(String mp3File, double volume) {
+        MediaPlayer res = makeSound(mp3File);
+        res.setVolume(volume);
+        return res;
+    }
+
     public static void repeatMedia(MediaPlayer mediaPlayer) {
         mediaPlayer.setOnEndOfMedia(new Runnable() {
             @Override

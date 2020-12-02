@@ -6,7 +6,6 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
 public abstract class Entity {
-    //protected Sprite sprite;
     protected double x;
     protected double y;
     protected Image img;

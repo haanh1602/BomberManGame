@@ -3,7 +3,8 @@ package uet.oop.bomberman.command;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.moveEntities.Bomber;
-import uet.oop.bomberman.entities.moveEntities.Effect;
+import uet.oop.bomberman.entities.moveEntities.Effect.FlamePassEffect;
+import uet.oop.bomberman.entities.moveEntities.Effect.InvincibilityEffect;
 import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
 import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
 import uet.oop.bomberman.graphics.Sprite;
@@ -14,6 +15,7 @@ public class KeyInput {
     public boolean left = false;
     public boolean right = false;
     public boolean space = false;
+    public boolean enter = false;
     public boolean pause = false;
 
     public boolean admin = false;
@@ -58,9 +60,12 @@ public class KeyInput {
                     System.out.println("Bricks are cleared");
                     break;
                 case "acp":
-                    System.out.println("Bomber being champion...");
+                    if(!BombermanGame.getBomber().invincibility) {
+                        BombermanGame.effects.add(new InvincibilityEffect(BombermanGame.getBomber().getX(), BombermanGame.getBomber().getY(), null));
+                    }
                     BombermanGame.getBomber().invincibility = true;
-                    BombermanGame.getBomber().invincibilityTime = 3000/16;
+                    BombermanGame.getBomber().invincibilityTime = 10000/16;
+                    System.out.println("Bomber being invincibility...");
                     break;
                 case "afp":
                     if(BombermanGame.entities.get(BombermanGame.entities.size() - 1) instanceof Bomber) {
@@ -70,7 +75,7 @@ public class KeyInput {
                             try {
                                 BombermanGame.getBomber().flamePass = true;
                                 BombermanGame.effects.add(
-                                        new Effect(BombermanGame.getBomber().getX(), BombermanGame.getBomber().getY(), null, "FlamePass"));
+                                        new FlamePassEffect(BombermanGame.getBomber().getX(), BombermanGame.getBomber().getY(), null));
                             } catch (NullPointerException nullPointerException) {
                                 System.out.println("Bomber cannot found!");
                             }

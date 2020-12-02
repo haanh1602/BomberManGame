@@ -11,6 +11,7 @@ public class DetonatorItem extends Item{
     @Override
     public void destroy() {
         if(BombermanGame.life < BombermanGame.MAX_LIFE) BombermanGame.life += 1;
+        sound.getItem.play();
         BombermanGame.stillObjects.remove(this);
     }
 }

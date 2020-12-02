@@ -13,8 +13,8 @@ public abstract class Item extends MortalStill {
 
     @Override
     public void update() {
-        if(Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).getX()) == Math.round(x)
-                && Math.round(BombermanGame.entities.get(BombermanGame.entities.size() -1 ).getY()) == Math.round(y)) {
+        if(Math.round(BombermanGame.getBomber().getX()) == Math.round(x)
+                && Math.round(BombermanGame.getBomber().getY()) == Math.round(y)) {
             destroy();
         }
     }

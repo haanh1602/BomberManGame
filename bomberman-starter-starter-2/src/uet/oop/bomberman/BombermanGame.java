@@ -11,17 +11,18 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.command.*;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.moveEntities.enemy.*;
 import uet.oop.bomberman.entities.moveEntities.Bomber;
-import uet.oop.bomberman.entities.moveEntities.Effect;
+import uet.oop.bomberman.entities.moveEntities.Effect.Effect;
 import uet.oop.bomberman.entities.stillEntities.mortal.item.*;
 import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
 import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
@@ -29,7 +30,6 @@ import uet.oop.bomberman.entities.stillEntities.immortal.Portal;
 import uet.oop.bomberman.entities.stillEntities.immortal.Wall;
 import uet.oop.bomberman.graphics.*;
 import uet.oop.bomberman.sound.Sound;
-import uet.oop.bomberman.sound.SoundController;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,8 +61,6 @@ public class BombermanGame extends Application {
 
     AnchorPane scoreBoard = null;
     ScoreBoardController scoreBoardController = null;
-    AnchorPane levelScene = null;
-    LevelSceneController levelSceneController = null;
 
     // Bomber status
     public static int life = 3;
@@ -74,9 +72,6 @@ public class BombermanGame extends Application {
     public static int bombs = 1;
     public static final int MAX_BOMBS = 10;
     public static int levelMaxScore = 0;
-
-    private int time_levelScene = 3500/16;
-    private boolean levelStart = false;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -124,12 +119,21 @@ public class BombermanGame extends Application {
                                 input.pause = false; break;
                             }
                             input.pause = true; break;
+                        case ENTER:
+                            input.enter = true;
+                            input.admin = false; break;
                         case N:
+                            score = levelMaxScore;
                             createNewLevel(Integer.parseInt(level) + 1);
                             break;
                         default:
-                            char key = Character.toLowerCase(event.getText().charAt(0));
-                            System.out.println(key);
+                            char key = '.';
+                            try {
+                                key = Character.toLowerCase(event.getText().charAt(0));
+                                System.out.println(key);
+                            } catch (Exception e){
+                                System.out.println("Key is not support");
+                            }
                             if(key == 'a') {
                                 input.admin = true;
                                 input.resetAdminProcedure();
@@ -149,26 +153,29 @@ public class BombermanGame extends Application {
                             input.right = false; break;
                         case SPACE:
                             input.space = false; break;
+                        case ENTER:
+                            input.enter = false; break;
                     }
                 });
 
                 if(((Bomber) entities.get(entities.size() - 1)).isDead()) {
-                    //((Bomber) entities.get(entities.size() - 1)).reborn();
                     scene.setOnKeyPressed(event->{
                         if(event.getCode() == KeyCode.X) {
-                            //createNewLevel(Integer.parseInt(level) + 1);
-                            System.exit(0);
+                            resetStatus();
+                            BombermanGame.level = "1";
+                            BombermanGame.getBomber().reborn();
+                            createNewLevel(Integer.parseInt(level));
+                            input.pause = false;
                         }
                     });
                     if(root.getChildren().size() > 2) root.getChildren().remove(2);
-                    root.getChildren().add(Message.lose());
-                    //System.out.println(root.getChildren().size());
-                    //root.getChildren().get(2).setVisible(true);
-                    input.pause = true;
+                    if(getBomber().isDead()) {
+                        root.getChildren().add(Message.lose());
+                        input.pause = true;
+                    }
                 } else {
                     if(!input.pause) {
                         if(root.getChildren().size() > 2) root.getChildren().remove(2);
-                        //System.out.println(root.getChildren().size());
                         update();
                         portalHandle();
                     }
@@ -179,8 +186,7 @@ public class BombermanGame extends Application {
                         //System.out.println(root.getChildren().size());
                     }
                 }
-                /*Random random = new Random(1);
-                System.out.println((int) (Math.random() * 100));*/
+
             }
 
         };
@@ -189,6 +195,7 @@ public class BombermanGame extends Application {
 
     private void createMap() {
         String levelFilePath = new File("").getAbsolutePath() + "/res/levels/Level" + level + ".txt";
+        //String levelFilePath = String.valueOf(BombermanGame.class.getResource("/levels/Level" + level + ".txt"));
         try {
             FileReader fr = new FileReader(new File(levelFilePath));
             BufferedReader br = new BufferedReader(fr);
@@ -289,6 +296,12 @@ public class BombermanGame extends Application {
                             damagesObjects.add(minvo);
                             levelMaxScore += 800;
                             break;
+                        case '5':
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
+                            Doll doll = new Doll(j, i, null);
+                            damagesObjects.add(doll);
+                            levelMaxScore += 1200;
+                            break;
                         default:
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             break;
@@ -305,21 +318,14 @@ public class BombermanGame extends Application {
         }
     }
 
-    /*private void setChampionAnim() {
-        if(champion) {
-            if(championTime == 0) champion = false;
-            else {
-                int k = championTime-- / 25;
-                if(k % 2 == 0) {
-                    preImg = entities.get(entities.size() - 1).getImg();
-                    entities.get(entities.size() - 1).setImg(null);
-                }
-                else {
-                    entities.get(entities.size() - 1).setImg(preImg);
-                }
-            }
-        }
-    }*/
+    public void resetStatus() {
+        BombermanGame.score = 0;
+        BombermanGame.levelMaxScore = 0;
+        BombermanGame.life = 3;
+        BombermanGame.flame = 1;
+        BombermanGame.bombs = 1;
+        BombermanGame.speed = 1;
+    }
 
     public void update() {
         //_input.update();
@@ -339,8 +345,12 @@ public class BombermanGame extends Application {
     }
 
     public void createNewLevel(int level) {
+        URL url = BombermanGame.class.getResource("/levels/Level" + level + ".txt");
+        if(url == null) {
+            return;
+        }
+        System.out.println("Create new level " + level);
         sound.currentThemeSound = sound.findTheExit;
-        SoundController.makeSound("Level_Start.mp3").play();
         sound.replay(sound.currentThemeSound);
         sound.repeat(sound.currentThemeSound);
         this.level = String.valueOf(level);
@@ -359,23 +369,9 @@ public class BombermanGame extends Application {
         }
         scoreBoard.relocate(Sprite.SCALED_SIZE * WIDTH, 0);
         scoreBoard.setPrefHeight(Sprite.SCALED_SIZE * HEIGHT);
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../../../panes/LevelScene.fxml"));
-            levelScene = fxmlLoader.load();
-            System.out.println(levelScene.getPrefWidth() + ", " + levelScene.getPrefHeight());
-            levelSceneController = fxmlLoader.getController();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        levelScene.relocate(0, 0);
-        levelScene.setPrefSize(canvas.getWidth(), canvas.getHeight());
-        System.out.println(levelScene.getPrefWidth() + ", " + levelScene.getPrefHeight());
-        System.out.println(canvas.getWidth() + ", " + canvas.getHeight());
         root.getChildren().clear();
         root.getChildren().add(canvas);         // index 0
         root.getChildren().add(scoreBoard);     // index 1
-        //root.getChildren().add(levelScene);     // index 2
         scene.setRoot(root);
         stage.sizeToScene();
     }
@@ -400,8 +396,7 @@ public class BombermanGame extends Application {
     public void portalHandle() {
         if((int) Math.round(getBomber().getX()) == (int) BombermanGame.getPortal().getX()
                 && (int) Math.round(getBomber().getY()) == (int) BombermanGame.getPortal().getY()) {
-            if(BombermanGame.getPortal().isOpen) {
-                System.out.println("Create new level " + (Integer.parseInt(level) + 1));
+            if(BombermanGame.getPortal().isOpen && input.enter) {
                 createNewLevel(Integer.parseInt(level) + 1);
             }
         }

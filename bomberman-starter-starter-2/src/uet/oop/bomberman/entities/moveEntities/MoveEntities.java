@@ -14,7 +14,6 @@ import uet.oop.bomberman.sound.Sound;
 import java.util.List;
 
 public class MoveEntities extends Entity implements Mortal {
-    protected Sound sound = new Sound();
     public MoveEntities(double x, double y, Image img) {
         super(x, y, img);
     }

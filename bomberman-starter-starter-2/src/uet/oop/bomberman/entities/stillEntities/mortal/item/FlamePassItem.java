@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities.stillEntities.mortal.item;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.moveEntities.Effect;
+import uet.oop.bomberman.entities.moveEntities.Effect.FlamePassEffect;
 
 public class FlamePassItem extends Item {
     public FlamePassItem(double x, double y, Image img) {
@@ -18,7 +18,7 @@ public class FlamePassItem extends Item {
             } else {
                 BombermanGame.getBomber().flamePass = true;
                 BombermanGame.effects.add(
-                        new Effect(BombermanGame.getBomber().getX(), BombermanGame.getBomber().getY(), null, "FlamePass"));
+                        new FlamePassEffect(BombermanGame.getBomber().getX(), BombermanGame.getBomber().getY(), null));
             }
         } catch (NullPointerException nullPointerException) {
             System.out.println("Bomber cannot found!");

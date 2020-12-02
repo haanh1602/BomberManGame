@@ -3,6 +3,11 @@
     -fx-font-size: 18px;
 }
 
+.cooldown_font {
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 24px;
+}
+
 .level_scene {
     -fx-background-color: rgba(37,40,48,0.99);
 }

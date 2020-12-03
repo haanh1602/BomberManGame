@@ -23,7 +23,7 @@ public class Oneal extends Enemy {
                 setImg(type + "_left");
             } else {
                 setNewDirect();
-                speed = random.nextInt(4) + 1;
+                speed = random.nextInt(3) + 1;
             }
         }
         else if (this.right) {
@@ -33,7 +33,7 @@ public class Oneal extends Enemy {
                 setImg(type + "_right");
             } else {
                 setNewDirect();
-                speed = random.nextInt(4) + 1;
+                speed = random.nextInt(3) + 1;
             }
         }
         else if (this.down) {
@@ -43,18 +43,106 @@ public class Oneal extends Enemy {
                 setImg(type + "_right");
             } else {
                 setNewDirect();
-                speed = random.nextInt(4) + 1;
+                speed = random.nextInt(3) + 1;
             }
         }
-        else if (up) {
+        else if (this.up) {
             if(y > 1 && Bomber.checkInstanceStill(this, "up")) {
                 y -= 0.02 + 0.01 * (speed - 1);
                 if(y < 1) y = 1;
                 setImg(type + "_left");
             } else {
                 setNewDirect();
-                speed = random.nextInt(4) + 1;
+                speed = random.nextInt(3) + 1;
             }
         }
     }
+
+    /*public void moveHandle() {
+        if (this.left) {
+            if (x > 1 && Bomber.checkInstanceStill(this, "left")) {
+                if (this.x - BombermanGame.getBomber().getX() >= 4) {
+                    if (x > 1 && Bomber.checkInstanceStill(this, "left")) {
+                        speed += 0.1;
+                        x -= 0.02 + 0.01 * (speed - 1);
+                        if(x < 1) x = 1;
+                        setImg(type + "_left");
+                    } else {
+                        setNewDirect();
+                        speed = random.nextInt(2) + 1;
+                    }
+                }
+                x -= 0.02 + 0.01 * (speed - 1);
+                if(x < 1) x = 1;
+                setImg(type + "_left");
+            } else {
+                setNewDirect();
+                speed = random.nextInt(2) + 1;
+            }
+        }
+        else if (this.right) {
+            if(x < BombermanGame.WIDTH - 2 && Bomber.checkInstanceStill(this, "right")) {
+                if (this.x - BombermanGame.getBomber().getX() <= -4) {
+                    if (x < BombermanGame.WIDTH - 2 && Bomber.checkInstanceStill(this, "right")) {
+                        speed += 0.1;
+                        x += 0.02 + 0.01 * (speed - 1);
+                        if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
+                        setImg(type + "_right");
+                    } else {
+                        setNewDirect();
+                        speed = random.nextInt(2) + 1;
+                    }
+
+                }
+                x += 0.02 + 0.01 * (speed - 1);
+                if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
+                setImg(type + "_right");
+            } else {
+                setNewDirect();
+                speed = random.nextInt(2) + 1;
+            }
+        }
+        else if (this.down) {
+            if(y < BombermanGame.HEIGHT - 2 && Bomber.checkInstanceStill(this, "down")) {
+                if (this.y - BombermanGame.getBomber().getY() <= -4) {
+                    if (y < BombermanGame.HEIGHT - 2 && Bomber.checkInstanceStill(this, "down")) {
+                        speed += 0.1;
+                        y += 0.02 + 0.01 * (speed - 1);
+                        if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
+                        setImg(type + "_right");
+                    } else {
+                        setNewDirect();
+                        speed = random.nextInt(2) + 1;
+                    }
+                }
+                y += 0.02 + 0.01 * (speed - 1);
+                if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
+                setImg(type + "_right");
+            } else {
+                setNewDirect();
+                speed = random.nextInt(2) + 1;
+            }
+        }
+        else if (this.up) {
+            if(y > 1 && Bomber.checkInstanceStill(this, "up")) {
+                if (this.y - BombermanGame.getBomber().getY() >= 4) {
+                    if (y > 1 && Bomber.checkInstanceStill(this, "up")) {
+                        speed += 0.1;
+                        y -= 0.02 + 0.01 * (speed - 1);
+                        if(y < 1) y = 1;
+                        setImg(type + "_left");
+                    } else {
+                        setNewDirect();
+                        speed = random.nextInt(2) + 1;
+                    }
+                }
+                y -= 0.02 + 0.01 * (speed - 1);
+                if(y < 1) y = 1;
+                setImg(type + "_left");
+            } else {
+                setNewDirect();
+                speed = random.nextInt(2) + 1;
+            }
+        }
+    }*/
 }

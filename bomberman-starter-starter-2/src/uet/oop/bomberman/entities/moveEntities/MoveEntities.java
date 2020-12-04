@@ -5,6 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Mortal;
 import uet.oop.bomberman.entities.moveEntities.enemy.Enemy;
+import uet.oop.bomberman.entities.moveEntities.enemy.Minvo;
 import uet.oop.bomberman.entities.stillEntities.immortal.Wall;
 import uet.oop.bomberman.entities.stillEntities.mortal.Bomb;
 import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
@@ -14,6 +15,7 @@ import uet.oop.bomberman.sound.Sound;
 import java.util.List;
 
 public class MoveEntities extends Entity implements Mortal {
+    public boolean brickPass = false;
     public MoveEntities(double x, double y, Image img) {
         super(x, y, img);
     }
@@ -51,7 +53,7 @@ public class MoveEntities extends Entity implements Mortal {
         return false;
     }
 
-    public static boolean checkInstanceStill(Entity object, String type) {
+    public static boolean checkInstanceStill(MoveEntities object, String type) {
         boolean res = true;
         double space = (object instanceof Bomber)? 0.9 : 1.0;
         switch (type) {
@@ -60,7 +62,7 @@ public class MoveEntities extends Entity implements Mortal {
                     Entity still = BombermanGame.stillObjects.get(i);
                     if(round1(Math.abs(still.getX() - round1(object.getX()))) < space
                             && round1(object.getY()) - still.getY() > 0.7 && round1(object.getY() - still.getY()) <= round1(space)) {
-                        if(still instanceof Wall || still instanceof Brick) {
+                        if(still instanceof Wall || (still instanceof Brick && !object.brickPass)) {
                             //if (object instanceof Bomber)
                             //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
@@ -76,7 +78,7 @@ public class MoveEntities extends Entity implements Mortal {
                     Entity still = BombermanGame.stillObjects.get(i);
                     if(round1(Math.abs(still.getX() - round1(object.getX()))) < space
                             && still.getY() - round1(object.getY()) > 0.7 && round1(still.getY() - object.getY()) <= round1(space)) {
-                        if(still instanceof Wall || still instanceof Brick) {
+                        if(still instanceof Wall || (still instanceof Brick && !object.brickPass)) {
                             //if(object instanceof Bomber)
                             //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
@@ -92,7 +94,7 @@ public class MoveEntities extends Entity implements Mortal {
                     Entity still = BombermanGame.stillObjects.get(i);
                     if(round1(object.getX()) - still.getX() > 0.7 && round1(object.getX() - still.getX()) <= round1(space)
                             && round1(Math.abs(still.getY() - round1(object.getY()))) < space) {
-                        if(still instanceof Wall || still instanceof Brick) {
+                        if(still instanceof Wall || (still instanceof Brick && !object.brickPass)) {
                             //if(object instanceof Bomber) //System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }
@@ -107,7 +109,7 @@ public class MoveEntities extends Entity implements Mortal {
                     Entity still = BombermanGame.stillObjects.get(i);
                     if(still.getX() - round1(object.getX()) > 0.7 && round1(still.getX() - object.getX()) <= round1(space)
                             && round1(Math.abs(still.getY() - round1(object.getY()))) < space) {
-                        if(still instanceof Wall || still instanceof Brick) {
+                        if(still instanceof Wall || (still instanceof Brick && !object.brickPass)) {
                             //if(object instanceof Bomber) System.out.println(still.toString() + " x: " + still.x + " , y: " + still.y);
                             res = false;
                         }

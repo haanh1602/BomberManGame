@@ -55,4 +55,19 @@ public class Message {
         res.getChildren().add(press);
         return res;
     }
+
+    public static Pane win() {
+        Pane res = new Pane();
+        res.setPrefSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, BombermanGame.HEIGHT * Sprite.SCALED_SIZE);
+        //res.setOpacity(1);
+        res.setStyle("-fx-background-color: rgba(42,48,57,0.99)");
+        Label win = new Label(" YOU WIN ");
+        win.setPrefSize(160, 80);
+        win.setTextFill(Paint.valueOf("YELLOW"));
+        win.setFont(Font.font("Bomberman", FontWeight.MEDIUM, FontPosture.REGULAR, 25));
+        win.relocate((res.getPrefWidth() - win.getPrefWidth()) / 2,
+                (res.getPrefHeight() - win.getPrefHeight()) / 2);
+        res.getChildren().add(win);
+        return res;
+    }
 }

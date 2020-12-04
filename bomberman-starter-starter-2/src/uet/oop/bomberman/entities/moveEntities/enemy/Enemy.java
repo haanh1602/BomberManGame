@@ -21,7 +21,6 @@ public class Enemy extends MoveEntities {
     private int timeLeft = 100;  // ~1.5s
     protected boolean dying = false;
     protected String type;
-    //protected boolean isAlive = true;
     protected int speed;
     protected int direct;
     protected String _direct;

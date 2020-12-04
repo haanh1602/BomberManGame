@@ -53,6 +53,7 @@ public class BombermanGame extends Application {
     private Group root = new Group();
     private Scene scene = new Scene(root);
     private Stage stage = new Stage();
+    private boolean win = false;
     public static Sound sound = new Sound();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
@@ -93,6 +94,7 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
+                if(win) return;
                 render();
                 scene.setOnKeyPressed(event -> {
                     switch (event.getCode()) {
@@ -157,7 +159,6 @@ public class BombermanGame extends Application {
                             input.enter = false; break;
                     }
                 });
-
                 if(((Bomber) entities.get(entities.size() - 1)).isDead()) {
                     scene.setOnKeyPressed(event->{
                         if(event.getCode() == KeyCode.X) {
@@ -188,8 +189,8 @@ public class BombermanGame extends Application {
                 }
 
             }
-
         };
+        if(win) { timer.stop(); }
         timer.start();
     }
 
@@ -217,6 +218,7 @@ public class BombermanGame extends Application {
             } else {
                 System.out.println("Cannot read level info!");
             }
+            Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
             for (int i = 0; i < HEIGHT; i++) {
                 String line = br.readLine();
                 for (int j = 0; j < WIDTH; j++) {
@@ -229,11 +231,15 @@ public class BombermanGame extends Application {
                         case '*':
                             object = new Brick(j, i, Sprite.brick.getFxImage());
                             break;
-                        case 'p':
+                        case 'x':
                             //object = new Portal(j, i, Sprite.portal.getFxImage());
                             stillObjects.add(0, new Portal(j, i, Sprite.portal.getFxImage()));
                             object = new Brick(j, i, Sprite.brick.getFxImage());
                             //stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                            break;
+                        case 'p':
+                            bomberman = new Bomber(j, i, Sprite.player_right.getFxImage());
+                            object = new Grass(j, i, Sprite.grass.getFxImage());
                             break;
                         case 'b':
                             object = new BombsItem(j, i, Sprite.powerup_bombs.getFxImage());
@@ -309,6 +315,7 @@ public class BombermanGame extends Application {
                     if(!item) stillObjects.add(object);
                 }
             }
+            entities.add(bomberman);
 
             br.close();
             fr.close();
@@ -347,6 +354,12 @@ public class BombermanGame extends Application {
     public void createNewLevel(int level) {
         URL url = BombermanGame.class.getResource("/levels/Level" + level + ".txt");
         if(url == null) {
+            if(!win) {
+                win = true;
+                root.getChildren().add(Message.win());
+                sound.stopAll();
+                sound.playSound("Ending.mp3");
+            }
             return;
         }
         System.out.println("Create new level " + level);
@@ -355,8 +368,8 @@ public class BombermanGame extends Application {
         sound.repeat(sound.currentThemeSound);
         this.level = String.valueOf(level);
         createMap();
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
+//        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+//        entities.add(bomberman);
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
         try {

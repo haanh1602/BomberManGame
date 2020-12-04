@@ -14,51 +14,51 @@ public class Oneal extends Enemy {
         this.type = "oneal";
     }
 
-    @Override
-    public void moveHandle() {
-        if (this.left) {
-            if(x > 1 && Bomber.checkInstanceStill(this, "left")) {
-                x -= 0.02 + 0.01 * (speed - 1);
-                if(x < 1) x = 1;
-                setImg(type + "_left");
-            } else {
-                setNewDirect();
-                speed = random.nextInt(3) + 1;
-            }
-        }
-        else if (this.right) {
-            if(x < BombermanGame.WIDTH - 2 && Bomber.checkInstanceStill(this, "right")) {
-                x += 0.02 + 0.01 * (speed - 1);
-                if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
-                setImg(type + "_right");
-            } else {
-                setNewDirect();
-                speed = random.nextInt(3) + 1;
-            }
-        }
-        else if (this.down) {
-            if(y < BombermanGame.HEIGHT - 2 && Bomber.checkInstanceStill(this, "down")) {
-                y += 0.02 + 0.01 * (speed - 1);
-                if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
-                setImg(type + "_right");
-            } else {
-                setNewDirect();
-                speed = random.nextInt(3) + 1;
-            }
-        }
-        else if (this.up) {
-            if(y > 1 && Bomber.checkInstanceStill(this, "up")) {
-                y -= 0.02 + 0.01 * (speed - 1);
-                if(y < 1) y = 1;
-                setImg(type + "_left");
-            } else {
-                setNewDirect();
-                speed = random.nextInt(3) + 1;
-            }
-        }
-    }
+//    @Override
+//    public void moveHandle() {
+//        if (this.left) {
+//            if(x > 1 && Bomber.checkInstanceStill(this, "left")) {
+//                x -= 0.02 + 0.01 * (speed - 1);
+//                if(x < 1) x = 1;
+//                setImg(type + "_left");
+//            } else {
+//                setNewDirect();
+//                speed = random.nextInt(3) + 1;
+//            }
+//        }
+//        else if (this.right) {
+//            if(x < BombermanGame.WIDTH - 2 && Bomber.checkInstanceStill(this, "right")) {
+//                x += 0.02 + 0.01 * (speed - 1);
+//                if(x > BombermanGame.WIDTH - 2) x = BombermanGame.WIDTH - 2;
+//                setImg(type + "_right");
+//            } else {
+//                setNewDirect();
+//                speed = random.nextInt(3) + 1;
+//            }
+//        }
+//        else if (this.down) {
+//            if(y < BombermanGame.HEIGHT - 2 && Bomber.checkInstanceStill(this, "down")) {
+//                y += 0.02 + 0.01 * (speed - 1);
+//                if(y > BombermanGame.HEIGHT - 2) y = BombermanGame.HEIGHT - 2;
+//                setImg(type + "_right");
+//            } else {
+//                setNewDirect();
+//                speed = random.nextInt(3) + 1;
+//            }
+//        }
+//        else if (this.up) {
+//            if(y > 1 && Bomber.checkInstanceStill(this, "up")) {
+//                y -= 0.02 + 0.01 * (speed - 1);
+//                if(y < 1) y = 1;
+//                setImg(type + "_left");
+//            } else {
+//                setNewDirect();
+//                speed = random.nextInt(3) + 1;
+//            }
+//        }
+//    }
 
-    /*public void moveHandle() {
+    public void moveHandle() {
         if (this.left) {
             if (x > 1 && Bomber.checkInstanceStill(this, "left")) {
                 if (this.x - BombermanGame.getBomber().getX() >= 4) {
@@ -144,5 +144,5 @@ public class Oneal extends Enemy {
                 speed = random.nextInt(2) + 1;
             }
         }
-    }*/
+    }
 }

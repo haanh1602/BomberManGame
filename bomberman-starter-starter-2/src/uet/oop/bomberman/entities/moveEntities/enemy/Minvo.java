@@ -7,6 +7,13 @@ public class Minvo extends Enemy {
         super(x, y, img);
         this.type = "minvo";
         this.point = 800;
-        this.speed = 1;
+        this.speed = 3;
+        brickPass = true;
+    }
+
+    @Override
+    public void moveHandle() {
+        setDifOpsDirect();
+        super.moveHandle();
     }
 }

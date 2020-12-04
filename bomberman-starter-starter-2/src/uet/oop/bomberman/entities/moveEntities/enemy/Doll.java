@@ -2,8 +2,6 @@ package uet.oop.bomberman.entities.moveEntities.enemy;
 
 import javafx.scene.image.Image;
 
-import java.util.Random;
-
 public class Doll extends Enemy{
     public Doll(double x, double y, Image img) {
         super(x, y, img);

@@ -1,0 +1,48 @@
+.bomberman_font {
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 18px;
+}
+
+.cooldown_font {
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 24px;
+}
+
+.level_scene {
+    -fx-background-color: rgba(37,40,48,0.99);
+}
+
+.level_scene .text {
+    -fx-background-color: transparent;
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 40px;
+}
+
+.score_font {
+    -fx-font-family: "Bomberman";
+    -fx-font-size: 30px;
+}
+
+.bomberman_font_unmodified .text{
+    -fx-font-family: "Bomberman";
+    -fx-stroke-width: 2px;
+    -fx-stroke: whitesmoke;
+    -fx-font-size: 20px;
+}
+
+.score_font .text {
+    -fx-font-family: "Bomberman";
+    -fx-stroke-width: 1px;
+    -fx-stroke: black;
+    -fx-font-size: 24px;
+}
+
+.background {
+    -fx-background-color: rgba(38,68,68,0.99);
+}
+
+#blend {
+    -fx-border-width: 4px;
+    -fx-border-color: rgba(193,207,222,0.99);
+    -fx-border-style: dashed;
+}

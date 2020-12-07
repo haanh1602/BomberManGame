@@ -1,3 +1,39 @@
+# Những tính năng của nhóm AK-47
+## Các tính năng cơ bản theo yêu cầu
+   - 3 Item cơ bản:
+      - ![](res/sprites/powerup_bombs.png) *Bombs* : Tăng giới hạn số *Bomb* ![](res/sprites/bomb.png) có thể đặt.
+      - ![](res/sprites/powerup_flames.png) *Flames* : Tăng độ dài *Flame* ![](res/sprites/explosion_horizontal.png) khi *Bomb* ![](res/sprites/bomb.png) nổ.
+      - ![](res/sprites/powerup_speed.png) *Speed* : Tăng *Speed* của *Bomber* ![](res/sprites/player_right_1.png)
+   - 2 Enemy cơ bản:
+      - ![](res/sprites/balloom_left1.png) *Balloom* : Enemy di chuyển ngẫu nhiên tốc độ chậm.
+      - ![](res/sprites/oneal_left1.png) *Oneal* : Enemy có thuật toán tìm đường cơ bản.
+   - Xử lý các thực thể, hoạt ảnh, ...
+
+## Các tính năng nâng cao
+   - Thêm một số Enemy:
+      - ![](res/sprites/minvo_left1.png) *Minvo* : Enemy có khả năng đi xuyên tường.
+      - ![](res/sprites/kondoria_left1.png) *Kondoria* : Enemy có thuật toán tìm đường được cải tiến ( thuật toán A* ).
+      - ![](res/sprites/doll_left1.png) *Doll* : Enemy di chuyển nhanh và ngẫu nhiên.
+      
+   - Thêm 2 loại Item là Invincibility (Bất tử) và FlamePass (Vượt qua lửa ):
+      - ![](res/sprites/powerup_invincibility.png) *Invincibility* : Bomber không nhận sát thương từ bất kỳ nguồn nào.
+      - ![](res/sprites/powerup_flamepass.png) *FlamePass* : Bomber không nhận sát thương từ *Flame* ![](res/sprites/explosion_horizontal.png) nhưng vẫn nhận sát thương từ *Enemy*.
+   - Thêm hiệu ứng âm thanh, nhạc nền, xử lý âm thanh tùy sự kiện.   
+   - Thêm bảng điểm để người chơi biết điểm, các chỉ số hiện tại của Bomber.
+   - Thêm tính năng nhập chuỗi lệnh liền nhau từ bàn phím cho Admin, dùng để dễ xử lý code:
+      - *" apf "* : Tăng độ dài *Flame* ![](res/sprites/explosion_horizontal.png) khi *Bomb* ![](res/sprites/bomb.png) nổ.
+      - *" apb "* : Tăng giới hạn số *Bomb* ![](res/sprites/bomb.png) có thể đặt.
+      - *" aps "* : Tăng *Speed* của *Bomber* ![](res/sprites/player_right_1.png)
+      - *" ars "* : Đưa trạng thái của *Bomber* ![](res/sprites/player_right_1.png) về cơ bản.
+      - *" acb "* : Xóa tất cả *Brick* ![](res/sprites/brick.png) trên bản đồ hiện tại.
+      - *" acp "* : Bật chế độ *Invincibility* ![](res/sprites/Invincibility3.png)
+      - *" afp "* : Bật chế độ *FlamePass* ![](res/sprites/FlamePass1.png)
+      - *" ade "* : Tiêu diệt toàn bộ *Enemy* trên bản đồ hiện tại.
+      - *" adl "* : Cộng thêm 1 mạng.
+      - *" n "* : Qua màn mới
+- Lưu ý: Level 4 chỉ dùng để test thuật toán của Kondoria nên không có bảng điểm      
+   
+
 # Bài tập lớn OOP - Bomberman Game
 
 Trong bài tập lớn này, nhiệm vụ của bạn là viết một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES.

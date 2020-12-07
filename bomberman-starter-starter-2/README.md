@@ -18,6 +18,7 @@
    - Thêm 2 loại Item là Invincibility (Bất tử) và FlamePass (Vượt qua lửa ):
       - ![](res/sprites/powerup_invincibility.png) *Invincibility* : Bomber không nhận sát thương từ bất kỳ nguồn nào.
       - ![](res/sprites/powerup_flamepass.png) *FlamePass* : Bomber không nhận sát thương từ *Flame* ![](res/sprites/explosion_horizontal.png) nhưng vẫn nhận sát thương từ *Enemy*.
+      - ![](res/sprites/powerup_detonator.png) *Detonator* : Cộng thêm 1 mạng.
    - Thêm hiệu ứng âm thanh, nhạc nền, xử lý âm thanh tùy sự kiện.   
    - Thêm bảng điểm để người chơi biết điểm, các chỉ số hiện tại của Bomber.
    - Thêm tính năng nhập chuỗi lệnh liền nhau từ bàn phím cho Admin, dùng để dễ xử lý code:

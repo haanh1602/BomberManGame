@@ -15,7 +15,7 @@
       - ![](res/sprites/kondoria_left1.png) *Kondoria* : Enemy có thuật toán tìm đường được cải tiến ( thuật toán A* ).
       - ![](res/sprites/doll_left1.png) *Doll* : Enemy di chuyển nhanh và ngẫu nhiên.
       
-   - Thêm 2 loại Item là Invincibility (Bất tử) và FlamePass (Vượt qua lửa ):
+   - Thêm 3 loại Item là Invincibility (Bất tử) và FlamePass (Vượt qua lửa ):
       - ![](res/sprites/powerup_invincibility.png) *Invincibility* : Bomber không nhận sát thương từ bất kỳ nguồn nào.
       - ![](res/sprites/powerup_flamepass.png) *FlamePass* : Bomber không nhận sát thương từ *Flame* ![](res/sprites/explosion_horizontal.png) nhưng vẫn nhận sát thương từ *Enemy*.
       - ![](res/sprites/powerup_detonator.png) *Detonator* : Cộng thêm 1 mạng.

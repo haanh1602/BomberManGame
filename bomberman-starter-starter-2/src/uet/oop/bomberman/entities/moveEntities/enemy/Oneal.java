@@ -7,6 +7,7 @@ import uet.oop.bomberman.entities.moveEntities.Bomber;
 import java.util.Random;
 
 public class Oneal extends Enemy {
+    // TODO: đuổi theo bomber ( phạm vi bé ), speed ngẫu nhiên
     public Oneal(double x, double y, Image img) {
         super(x, y, img);
         this.speed = 1;

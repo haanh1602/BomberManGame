@@ -23,6 +23,7 @@ import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.moveEntities.enemy.*;
 import uet.oop.bomberman.entities.moveEntities.Bomber;
 import uet.oop.bomberman.entities.moveEntities.Effect.Effect;
+import uet.oop.bomberman.entities.moveEntities.enemy.graph.Graph;
 import uet.oop.bomberman.entities.stillEntities.mortal.item.*;
 import uet.oop.bomberman.entities.stillEntities.mortal.Brick;
 import uet.oop.bomberman.entities.stillEntities.immortal.Grass;
@@ -73,6 +74,7 @@ public class BombermanGame extends Application {
     public static int bombs = 1;
     public static final int MAX_BOMBS = 10;
     public static int levelMaxScore = 0;
+    public static Graph graph = null;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -80,6 +82,7 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
+
         Font.loadFont(getClass().getResourceAsStream("/Bomberman.ttf"), 16);
         this.stage = stage;
         createNewLevel(1);
@@ -368,8 +371,8 @@ public class BombermanGame extends Application {
         sound.repeat(sound.currentThemeSound);
         this.level = String.valueOf(level);
         createMap();
-//        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-//        entities.add(bomberman);
+        graph = new Graph(0, 0, WIDTH, HEIGHT);
+//        graph.printGraph();
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
         try {
@@ -384,6 +387,7 @@ public class BombermanGame extends Application {
         scoreBoard.setPrefHeight(Sprite.SCALED_SIZE * HEIGHT);
         root.getChildren().clear();
         root.getChildren().add(canvas);         // index 0
+        if(level != 4)
         root.getChildren().add(scoreBoard);     // index 1
         scene.setRoot(root);
         stage.sizeToScene();

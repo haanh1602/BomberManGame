@@ -53,7 +53,9 @@ public class KeyInput {
                     for(int i = 0; i < BombermanGame.stillObjects.size(); i++) {
                         if(BombermanGame.stillObjects.get(i) instanceof Brick) {
                             Brick temp = (Brick) BombermanGame.stillObjects.get(i);
+                            //temp.destroy();
                             BombermanGame.stillObjects.remove(temp);
+                            BombermanGame.graph.remove((int)Math.round(temp.getX()), (int)Math.round(temp.getY()));
                             BombermanGame.stillObjects.add(0, new Grass((int) Math.round(temp.getX()), (int) Math.round(temp.getY()), Sprite.grass.getFxImage()));
                         }
                     }

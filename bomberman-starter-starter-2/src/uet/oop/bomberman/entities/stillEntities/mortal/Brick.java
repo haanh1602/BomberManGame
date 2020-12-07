@@ -39,5 +39,6 @@ public class Brick extends MortalStill {
     @Override
     public void destroy() {
         still = false;
+        BombermanGame.graph.remove((int)Math.round(x), (int)Math.round(y));
     }
 }

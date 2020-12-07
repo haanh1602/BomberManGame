@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.moveEntities.enemy;
 import javafx.scene.image.Image;
 
 public class Ballom extends Enemy {
+    // TODO: đổi hướng khi chạm tường, speed chậm
     public Ballom(double x, double y, Image img) {
         super(x, y, img);
         this.speed = 1;
@@ -12,7 +13,6 @@ public class Ballom extends Enemy {
 
     @Override
     public void moveHandle() {
-        setDifOpsDirect();
         super.moveHandle();
     }
 }

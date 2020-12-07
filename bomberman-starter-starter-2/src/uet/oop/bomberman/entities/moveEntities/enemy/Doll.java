@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.moveEntities.enemy;
 import javafx.scene.image.Image;
 
 public class Doll extends Enemy{
+    // TODO: đổi hướng ngẫu nhiên khi gặp ngã 3, ngã 4, speed nhanh
     public Doll(double x, double y, Image img) {
         super(x, y, img);
         this.type = "doll";

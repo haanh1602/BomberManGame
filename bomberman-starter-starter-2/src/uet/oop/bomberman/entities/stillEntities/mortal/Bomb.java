@@ -18,6 +18,7 @@ public class Bomb extends MortalStill {
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
+        BombermanGame.graph.add(x, y);
         sound.makeBomb.play();
     }
 
@@ -118,6 +119,7 @@ public class Bomb extends MortalStill {
         }
         if(explodeTime < -1) {
             BombermanGame.damagesObjects.remove(this);
+            BombermanGame.graph.remove((int)Math.round(x), (int)Math.round(y));
         }
     }
 
